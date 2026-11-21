@@ -4,7 +4,7 @@
 | --- | --- | --- |
 | D0 | Struktura, kontrakty i dokumentacja | IMPLEMENTED (ARCHITECTURE) |
 | D1 | Typy danych, walidacja i jednostki | INTEGRATED TO MAIN (PR #2) |
-| D2 | Jedna elementarna operacja FIR + testy syntetyczne | IMPLEMENTED IN PR #3, CI PASS 90 TESTS (PRE-RETARGET) |
+| D2 | Jedna elementarna operacja FIR + testy syntetyczne | IMPLEMENTED IN PR #3, CI PASS 90 TESTS ON MAIN BASE, REVIEW PENDING |
 | D3 | Reużycie SciPy, strumienie i synchronizacja | NOT_STARTED |
 | D4 | E2E na uprawnionym host i odbiorca | NOT_STARTED |
 

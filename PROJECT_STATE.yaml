@@ -6,13 +6,14 @@ programme: research-autopilot
 owner: MatPomGit
 updated: 2026-11-21
 lifecycle: development
-evidence_status: ci_90_pass_before_retarget_on_e1aed637
+evidence_status: ci_90_pass_on_main_base_d1f60245
 device_validation_status: not_run
 pages_status: not_configured
 release_status: not_released
 source_version: 0.1.0
-next_action: validate_pr_3_on_main_and_obtain_independent_review
+next_action: obtain_independent_review_then_integrate_pr_3
 blockers:
+  - independent_pr_3_review_pending
   - license_undecided
   - packaging_clean_install_not_run
   - real_environment_e2e_not_run

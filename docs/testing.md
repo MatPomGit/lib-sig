@@ -15,4 +15,4 @@ Plan dalszy: porównanie odpowiedzi impulsowej i częstotliwościowej z referenc
 
 Nie utożsamiać wykonanych syntetycznych testów z walidacją sprzętową lub naukowym benchmarkiem.
 
-Po scaleniu PR #2 zmieniono bazę PR #3 na `main`. Dla nowego HEAD wymagane jest osobne CI potwierdzające zachowanie testów po retargetowaniu; stan `PASS` poprzedniego SHA nie zastępuje finalnego wyniku.
+Po scaleniu PR #2 zmieniono bazę PR #3 na `main`. [Scaffold CI #44949547334](https://github.com/MatPomGit/lib-sig/actions/runs/44949547334) potwierdził **90/90 PASS na `d1f60245daeb4322dfab9d15ff90dd93a395300b`**, po przeniesieniu bazy na `main`. Kolejna zmiana SHA wymaga ponownego CI.
