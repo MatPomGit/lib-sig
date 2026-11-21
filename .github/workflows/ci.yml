@@ -46,7 +46,8 @@ jobs:
       - name: Check isolated public Pages
         run: python scripts/validate_pages.py
       - name: Install pinned numerical backend for spectral regression tests
-        run: python -m pip install --disable-pip-version-check --only-binary=:all: -r requirements-spectral.txt
+        run: |
+          python -m pip install --disable-pip-version-check --only-binary=:all: -r requirements-spectral.txt
       - name: Run regression tests
         run: python -m unittest discover -s tests -v
       - name: Build and inspect approved Pages (never deploy)
