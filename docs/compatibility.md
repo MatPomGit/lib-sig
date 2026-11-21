@@ -1,10 +1,11 @@
 # Zgodność
 
-| Platforma | Zamierzony zakres | Status |
+| Warstwa | Docelowy zakres | Status |
 | --- | --- | --- |
-| Python 3.11+ | import i testy jednostkowe | NOT_RUN |
-| Windows/Linux | docelowy klient | NOT_RUN |
-| MNE / BrainFlow / SciPy | backend / SDK | NOT_RUN |
-| Aparatura / realny model | test integracyjny | NOT_RUN |
+| Python 3.11+ | Model sygnału i DSP | NOT_RUN |
+| NumPy / SciPy | Obliczenia numeryczne | NOT_RUN |
+| Windows / Linux | Klient i testy jednostkowe | NOT_RUN |
+| Biosygnały / akustyka / IMU | Adaptery konkretnych formatów | NOT_RUN |
+| MNE / BrainFlow / inne SDK | Adapter opcjonalny | NOT_RUN |
 
-Niewykonane testy nie mogą zostać zastąpione domniemaniem kompatybilności.
+Nie uznawać wyników testów dokumentacji za weryfikację obliczeń numerycznych ani kompatybilności ze sprzętem.

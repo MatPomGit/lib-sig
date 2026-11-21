@@ -1,5 +1,5 @@
-# Zależności i licencje
+# Zależności i łańcuch dostaw
 
-MNE-Python i SciPy jako możliwe biblioteki przetwarzania; BrainFlow jako potencjalny adapter akwizycyjny pod warunkiem testów i licencji.
+Planowany rdzeń numeryczny może wykorzystywać **NumPy** i **SciPy** do reprezentacji wektorowej, filtrów i analiz widmowych, zamiast implementować od nowa algorytmy DSP. Opcjonalne biblioteki domenowe, np. MNE-Python (EEG) lub BrainFlow (akwizycja), pozostają zależnościami adapterów lub konsumentów, nie wymaganiem każdej instalacji.
 
-To jedynie kandydaci. Runtime i lockfile nie zostały jeszcze wybrane, a zewnętrzne pakiety lub wagi modeli nie są częścią repo. Przed implementacją zweryfikować zgodność licencji, wersje, hashe, brak wymaganej subskrypcji, wydajność i uprawnienia sieciowe.
+Wszystkie wymienione pakiety są kandydatami, nie potwierdzonymi zależnościami. Brak manifestu, lockfile i zbudowanego artefaktu. Przed implementacją trzeba ustalić wersje, licencje, ograniczenia OS i test reprodukowalnego środowiska.
