@@ -47,6 +47,14 @@ class SignalCoreTests(unittest.TestCase):
                 TimeAxis("regular", "monotonic", **case)
             self.assertEqual(exc.exception.code, "TIMEBASE_MISMATCH")
 
+    def test_regular_timestamps_overflow_fail_closed(self):
+        axis = TimeAxis("regular", "sensor", start_s=0., sampling_rate_hz=5e-324)
+        with self.assertRaises(SignalValidationError) as exc:
+            self.block(time_axis=axis)
+        self.assertEqual(exc.exception.code, "TIMEBASE_MISMATCH")
+        with self.assertRaises(SignalValidationError):
+            axis.timestamp_at(10**1000)
+
     def test_invalid_irregular_axis(self):
         for stamps in ((), (2., 1.), (1., 1.), (math.nan,), [1., 2.], (0., math.inf)):
             with self.subTest(stamps=stamps), self.assertRaises(SignalValidationError) as exc:

@@ -88,7 +88,13 @@ class TimeAxis:
         if type(index) is not int or index < 0:
             raise IndexError("sample index must be a nonnegative integer")
         if self.kind == "regular":
-            return self.start_s + index / self.sampling_rate_hz
+            try:
+                stamp = self.start_s + index / self.sampling_rate_hz
+            except (OverflowError, ZeroDivisionError) as error:
+                raise SignalValidationError("TIMEBASE_MISMATCH", "timestamp cannot be represented") from error
+            if not math.isfinite(stamp):
+                raise SignalValidationError("TIMEBASE_MISMATCH", "timestamp cannot be represented")
+            return stamp
         return self.timestamps_s[index]
 
 
@@ -119,6 +125,8 @@ class SignalBlock:
             raise SignalValidationError("INVALID_SHAPE", "samples must be a nonempty tuple of fixed-width rows")
         if self.time_axis.kind == "irregular" and len(self.time_axis.timestamps_s) != len(self.samples):
             raise SignalValidationError("TIMEBASE_MISMATCH", "timestamp count must equal sample count")
+        if self.time_axis.kind == "regular":
+            self.time_axis.timestamp_at(len(self.samples) - 1)
         if self.mask is not None:
             if (type(self.mask) is not tuple or len(self.mask) != len(self.samples)
                     or any(type(row) is not tuple or len(row) != count

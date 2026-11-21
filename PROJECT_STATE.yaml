@@ -6,12 +6,12 @@ programme: research-autopilot
 owner: MatPomGit
 updated: 2026-11-21
 lifecycle: development
-evidence_status: local_unit_14_pass_ci_pending
+evidence_status: ci_74_pass_on_previous_sha_new_ci_pending
 device_validation_status: not_run
 pages_status: not_configured
 release_status: not_released
 source_version: 0.1.0
-next_action: independent_review_then_implement_dsp_filters
+next_action: verify_final_ci_and_independent_review_then_implement_dsp_filters
 blockers:
   - choose_license_before_distribution
   - packaging_and_clean_install_not_run

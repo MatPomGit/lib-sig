@@ -1,6 +1,6 @@
 # Walidacja lib-sig
 
-Moduł `core` ma deterministyczne testy jednostkowe w `tests/test_signal_core.py`. Reszta planu DSP pozostaje niewykonana.
+Moduł `core` ma 15 deterministycznych testów jednostkowych, w tym wykrywanie nieprzedstawialnych timestampów, oraz dalsze testy scaffold CI. Moduł w `tests/test_signal_core.py`. Reszta planu DSP pozostaje niewykonana.
 
 1. Sinusoidy i kombinacje harmoniczne: dokładne piki FFT/PSD, jednostki i normalizacja.
 2. Filtry FIR/IIR: odpowiedź częstotliwościowa, opóźnienie, stan początkowy i efekty brzegowe.
