@@ -1,6 +1,6 @@
-# Plan walidacji lib-sig
+# Walidacja lib-sig
 
-Testy powinny zaczynać się od sygnałów syntetycznych o znanym ground truth.
+Moduł `core` ma deterministyczne testy jednostkowe w `tests/test_signal_core.py`. Reszta planu DSP pozostaje niewykonana.
 
 1. Sinusoidy i kombinacje harmoniczne: dokładne piki FFT/PSD, jednostki i normalizacja.
 2. Filtry FIR/IIR: odpowiedź częstotliwościowa, opóźnienie, stan początkowy i efekty brzegowe.
@@ -10,7 +10,7 @@ Testy powinny zaczynać się od sygnałów syntetycznych o znanym ground truth.
 6. Test import/eksport danych syntetycznych bez przecieku próbek do logów.
 7. Docelowe E2E z sygnałem akustycznym, IMU lub EEG po oddzielnym preflight.
 
-Każdy test musi podać SHA, wersję backendu, parametry, jednostki, metrykę i wynik. **Testy DSP NOT_RUN**, dopóki nie istnieje kod.
+Każdy test musi podać SHA, wersję backendu, parametry, jednostki, metrykę i wynik. Testy filtrów, widm, resamplingu i integracji sprzętowej pozostają **NOT_RUN**.
 
 ```bash
 python scripts/validate_repository.py --phase scaffold

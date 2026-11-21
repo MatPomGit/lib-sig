@@ -5,14 +5,15 @@ component_id: lib-sig
 programme: research-autopilot
 owner: MatPomGit
 updated: 2026-11-21
-lifecycle: scaffold
-evidence_status: not_run
-device_validation_status: not_applicable
+lifecycle: development
+evidence_status: local_unit_14_pass_ci_pending
+device_validation_status: not_run
 pages_status: not_configured
 release_status: not_released
 source_version: 0.1.0
-next_action: implement_core_contract_and_offline_tests
+next_action: independent_review_then_implement_dsp_filters
 blockers:
-  - no_executable_library
   - choose_license_before_distribution
+  - packaging_and_clean_install_not_run
+  - numerical_dsp_not_implemented
   - real_environment_e2e_not_run
