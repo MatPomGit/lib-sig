@@ -1,9 +1,7 @@
 # features
 
-Widma, moc pasmowa, cechy w dziedzinie czasu i częstotliwości.
+Uniwersalne cechy sygnałów: średnia, wariancja, RMS, obwiednia, wartości szczytowe, percentyle, widma pasmowe i inne deskryptory według jawnej definicji.
 
-Zachować jednostki, okno, overlap i parametry normalizacji.
+Metryki muszą przenosić okno, jednostki, parametry normalizacji, timebase, kanał oraz warunki poprawności. Interpretacja kliniczna, akustyczna czy robotyczna należy do odpowiedniego konsumenta.
 
-Zasady: identyfikator źródła, znormalizowane jednostki, jawny timestamp, opis błędów i limit zasobów. Gdy funkcjonalność zależy od zewnętrznego runtime, testować ją na jawnej wersji backendu i sprzętu.
-
-Status: **PLANNED / NOT_IMPLEMENTED**. [Kontrakty](../../../docs/contracts.md), [testy](../../../docs/testing.md).
+**PLANNED / NOT_IMPLEMENTED.**

@@ -1,14 +1,16 @@
-# Proponowany kontrakt API
+# Proponowany kontrakt sygnałów
 
-**Status: PROPOSED, NOT_IMPLEMENTED.** Publiczne `contracts/api.json:public_entrypoints` pozostaje puste.
+**PROPOSED / NOT_IMPLEMENTED.** Brak publicznych symboli; `contracts/api.json:public_entrypoints` pozostaje pusty.
 
-| Typ logiczny | Pola / jednostki | Status |
-| --- | --- | --- |
-| `SignalBlock` | samples[channel,time], sampling_rate_hz, units_per_channel, start_time_s, channel_names | PLANNED |
-| `EventMarker` | code, onset_s, duration_s, sample_index?, source_id | PLANNED |
-| `SignalQuality` | missing_rate, clipping_fraction, artifact_flags, metric_units | PLANNED |
-| `ProcessingProvenance` | transform_chain, parameters, implementation_version, input_hash? | PLANNED |
+| Typ | Pola / wymagania |
+| --- | --- |
+| `ChannelDescriptor` | `name`, `unit`, `source_id?`, `calibration_ref?`, `kind?` |
+| `TimeAxis` | `kind=regular/irregular`, `start_s?`, `sampling_rate_hz?`, `timestamps_s?`, `timebase` |
+| `SignalBlock` | `samples[sample,channel]`, `channels[]`, `time_axis`, `mask?`, `source_id` |
+| `SignalEvent` | `event_id`, `onset_s`, `duration_s`, `timebase`, `source_id` |
+| `SignalQuality` | `metric`, `value`, `unit`, `window`, `validity` |
+| `TransformProvenance` | `operation`, `parameters`, `library_version`, `input_ref` |
 
-Kryteria: jawny identyfikator źródła, typ i jednostki, określona reprezentacja timestampu, kontrola dostępu, zdefiniowany model błędu (`INVALID_INPUT`, `UNSUPPORTED_FORMAT`, `UNAVAILABLE`, `TIMEOUT`, `DATA_LOSS`) oraz opis niepewności i obróbki próbek.
+Dla regularnej osi `t[i]=start_s+i/sampling_rate_hz`; dla nieregularnej należy dostarczyć uporządkowane timestampy. Liczba rekordów czasu musi zgadzać się z liczbą próbek, a liczba kanałów z deskryptorami. Częstotliwość próbkowania: Hz; czas: s. Jednostki amplitudy zależą od konkretnego czujnika i nie powinny być domyślnie zakładane.
 
-Jednostki referencyjne: czas próbki w sekundach (źródłowy i monotoniczny), częstotliwość w Hz, jednostki fizyczne jawne dla każdego kanału. Brak metryki nie jest wartością zero; nie wymyślać współczynników jakości ani confidence. Breaking changes wymagają SemVer i migracji konsumenta.
+Błędy: `INVALID_SHAPE`, `INVALID_UNITS`, `TIMEBASE_MISMATCH`, `IRREGULAR_SAMPLING`, `UNSUPPORTED_FORMAT`, `DATA_LOSS`. Każda transformacja zmieniająca czas lub amplitudę powinna zachować provenance. Breaking changes wymagają wersjonowania API i testów konsumentów.

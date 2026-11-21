@@ -1,21 +1,21 @@
-# ADR-0004: granice lib-sig
+# ADR-0004: granice biblioteki Signal
 
 Data: 2026-11-21  
 Status: proposed
 
 ## Kontekst
 
-Akwizycja i przetwarzanie wielokanałowych sygnałów pomiarowych, w tym EEG, EMG, EDA i PPG. Funkcje tego obszaru przenikają przez kilka projektów, przez co łatwo o duplikację.
+Próbkowane sygnały z biosensorów, robotów, mikrofonów i aparatury przemysłowej wykorzystują zbliżone operacje DSP. Odrębne, dziedzinowe implementacje filtrów i analizy widmowej zwiększają ryzyko niespójności numerycznych.
 
 ## Propozycja
 
-Biblioteka odpowiada za wspólną reprezentację sygnału, jakość danych, filtrowanie, synchronizację i ekstrakcję cech; nie steruje hardware i nie wykonuje diagnostyki klinicznej. lib-eye odpowiada za okulografię, lib-audio za semantykę mowy i ASR/TTS, a devices za kontrakty urządzeń.
+`lib-sig` ma przechowywać ujednolicony model danych czasowych oraz uniwersalne algorytmy DSP: filtrowanie, resampling, FFT/PSD, zdarzenia, jakość i ekstrakcję cech. Biblioteka nie ma być ograniczona do biosygnałów. Akwizycja i interpretacja dziedzinowa pozostają u konsumentów; `lib-audio` realizuje m.in. ASR/TTS, `lib-vis` przetwarza piksele, a `lib-track` zarządza trajektoriami obiektów.
 
 ## Alternatywy
 
-- Duplikowanie kodu w aplikacjach: trudniejsze testy i utrzymanie.
-- Jeden megaprojekt sensorów/modeli: nadmierne zależności oraz brak jawnych granic.
+- DSP osobno w każdej aplikacji: trudniejsze testowanie i reprodukcja.
+- Jeden framework do wszystkiego (audio, obraz, tracking, sensory): nadmierna liczba zależności.
 
 ## Konsekwencje
 
-Oddzielne kontrakty i testy źródeł. Zamierzone jednostki: czas próbki w sekundach (źródłowy i monotoniczny), częstotliwość w Hz, jednostki fizyczne jawne dla każdego kanału. Nie deklarować wsparcia bez rzeczywistych testów.
+Wspólne kontrakty jednostek i osi czasu, ale konieczność szczegółowych testów numerycznych. Brak deklaracji kompatybilności bez testów na konkretnym SHA.

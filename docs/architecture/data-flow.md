@@ -1,7 +1,9 @@
-# Przepływ danych
+# Przepływ sygnałów
 
-Plan: **źródło → walidacja schematu → blok/strumień → transformacja → metadane pochodzenia → odbiorca**. Import i eksport powinny być opcjonalne; nie zapisywać domyślnie danych z urządzeń do repo.
+Dane z pliku, urządzenia lub symulatora trafiają do `io`, następnie do zwalidowanego `SignalBlock`, opcjonalnych transformacji `filters/spectral/events` i konsumenta.
 
-czas próbki w sekundach (źródłowy i monotoniczny), częstotliwość w Hz, jednostki fizyczne jawne dla każdego kanału. Dla każdego bloku utrzymać identyfikator, monotoniczny czas, jednostki i źródło. Resampling, segmentacja lub normalizacja powinny pozostawić ślad w metadanych. Nieregularne próbki, brakujące kanały oraz skoki czasu muszą zwracać ostrzeżenia lub błędy.
+Wymagane metadane: identyfikator źródła, nazwy kanałów, jednostki, częstotliwość próbkowania lub wektor czasu, wskazanie zegara i historia transformacji. Każda zmiana długości bloku, amplitudy lub osi czasu musi zostać jawnie opisana. Nie wolno wstawiać brakujących próbek bez wybranej metody interpolacji.
 
-Nie logować surowych nagrań, próbek biologicznych, transkrypcji ani danych osób badanych do publicznego CI. Adaptery lokalnych usług są osobną granicą zaufania, nawet dla loopback. Stan testów rzeczywistego przetwarzania: **NOT_RUN**.
+Strumienie mogą zawierać wrażliwe dane pomiarowe, dlatego biblioteka nie powinna domyślnie zapisywać surowych próbek do publicznych logów ani GitHub CI. Akwizycja sprzętowa jest własnością jawnie skonfigurowanych adapterów odbiorcy.
+
+**Implementacja i E2E: NOT_RUN.**

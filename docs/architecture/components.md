@@ -1,13 +1,15 @@
-# Planowane komponenty
+# Komponenty lib-sig
 
-| Moduł | Odpowiedzialność | Ograniczenia | Status |
-| --- | --- | --- | --- |
-| `lib_sig.io` | Import/eksport sygnałów i metadanych (EDF/BDF/FIF/CSV jako docelowe formaty) | Nie tracić informacji o jednostkach, montażu, kanale i próbkowaniu | PLANNED |
-| `lib_sig.filters` | Filtry cyfrowe, resampling i kontrola aliasingu | Jawne pasmo, rząd, faza, kompensacja opóźnienia, znane parametry | PLANNED |
-| `lib_sig.events` | Zdarzenia, epoki i wyrównanie zegarów | Jawny timebase i niepewność synchronizacji | PLANNED |
-| `lib_sig.quality` | Kontrola artefaktów, braków i nasycenia kanałów | Metryki i progi jako parametry; brak udawania oceny klinicznej | PLANNED |
-| `lib_sig.features` | Widma, moc pasmowa, cechy w dziedzinie czasu i częstotliwości | Zachować jednostki, okno, overlap i parametry normalizacji | PLANNED |
+| Moduł | Odpowiedzialność | Status |
+| --- | --- | --- |
+| `lib_sig.core` | Sygnały wielokanałowe, czas, jednostki | PLANNED |
+| `lib_sig.io` | Import/eksport i pochodzenie danych | PLANNED |
+| `lib_sig.filters` | Filtry, resampling, detrending | PLANNED |
+| `lib_sig.spectral` | FFT, PSD, spektrogramy | PLANNED |
+| `lib_sig.events` | Markery, epoki i korelacja czasu | PLANNED |
+| `lib_sig.quality` | Braki, artefakty, nasycenie, kompletność | PLANNED |
+| `lib_sig.features` | Statystyki i uniwersalne deskryptory | PLANNED |
 
-Biblioteka odpowiada za wspólną reprezentację sygnału, jakość danych, filtrowanie, synchronizację i ekstrakcję cech; nie steruje hardware i nie wykonuje diagnostyki klinicznej. lib-eye odpowiada za okulografię, lib-audio za semantykę mowy i ASR/TTS, a devices za kontrakty urządzeń.
+Biblioteka obejmuje DSP dla sygnałów akustycznych, mechanicznych, elektrycznych, biologicznych i symulowanych. Nie obejmuje sterowania aparaturą, ASR/TTS, detekcji obiektów, trackingu ani diagnostyki medycznej. Moduły nie są jeszcze kodem.
 
-Publiczne symbole implementować dopiero po teście kontraktowym; `contracts/api.json` rejestruje tylko rzeczywistą implementację.
+[Kontrakt](../contracts.md) · [Przepływ](data-flow.md).

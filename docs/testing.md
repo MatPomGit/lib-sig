@@ -1,16 +1,16 @@
-# Strategia testowania
+# Plan walidacji lib-sig
 
-Testy offline z danymi syntetycznymi poprzedzają integrację z rzeczywistym urządzeniem, serwisem lub modelem.
+Testy powinny zaczynać się od sygnałów syntetycznych o znanym ground truth.
 
-1. Próbki syntetyczne z sinusoidami o znanym widmie.
-2. Resampling z antyaliasingiem i weryfikacją długości.
-3. Filtry: wzmocnienie, opóźnienie grupowe, edge effects.
-4. Marker epoch/clock alignment z jitter i utratą danych.
-5. Import/eksport testowych plików bez rzeczywistych danych osób badanych.
+1. Sinusoidy i kombinacje harmoniczne: dokładne piki FFT/PSD, jednostki i normalizacja.
+2. Filtry FIR/IIR: odpowiedź częstotliwościowa, opóźnienie, stan początkowy i efekty brzegowe.
+3. Resampling, decymacja i aliasing, w tym zapis zmienionej osi czasu.
+4. Nieregularne timestampy, jitter, luki, duplikaty i skoki zegara.
+5. Test wielokanałowych danych z różnymi jednostkami i maską wartości brakujących.
+6. Test import/eksport danych syntetycznych bez przecieku próbek do logów.
+7. Docelowe E2E z sygnałem akustycznym, IMU lub EEG po oddzielnym preflight.
 
-Wynik testu dokumentować w raporcie z SHA, wersją backendu, jednostkami i konfiguracją źródła. Nie utożsamiać przejścia walidatorów szkieletu z działającym przetwarzaniem sygnału.
-
-Kontrole repozytorium:
+Każdy test musi podać SHA, wersję backendu, parametry, jednostki, metrykę i wynik. **Testy DSP NOT_RUN**, dopóki nie istnieje kod.
 
 ```bash
 python scripts/validate_repository.py --phase scaffold

@@ -1,7 +1,11 @@
-# Możliwi odbiorcy
+# Potencjalni odbiorcy lib-sig
 
-- lib-exp: wyrównanie markerów eksperymentalnych, status **PROPOSED**.
-- ARC-Neuro i ARC-Affective: biosygnały i przetwarzanie offline, status **PROPOSED**.
-- lib-audio: może wykorzystywać wybrane algorytmy DSP, bez dublowania API mowy, status **PROPOSED**.
+| System | Zastosowanie | Status |
+| --- | --- | --- |
+| `lib-exp` | Synchronizacja markerów i próbkowanych bodźców | PROPOSED |
+| `lib-audio` | Uniwersalne FFT, resampling lub filtrowanie audio | PROPOSED |
+| `lib-ros` | DSP dla telemetrii czujników i IMU | PROPOSED |
+| `lib-track` | Filtracja sekwencji numerycznych jako opcjonalna zależność | PROPOSED |
+| `arc-neuro`, `arc-robo`, `arc-xr` | Analizy offline sygnałów z eksperymentów | PROPOSED |
 
-Brak dotąd potwierdzonych integracji z przypiętym wydaniem. Przy pierwszym uruchomieniu należy zapisać repozytorium, SHA i test zgodności odbiorcy. Nie kopiować kodu między bibliotekami.
+Żaden konsument nie jest jeszcze potwierdzony testem integracyjnym i przypiętą wersją `lib-sig`. Wspólne algorytmy powinny być współdzielone przez pakiet, bez kopiowania ich do konsumentów.

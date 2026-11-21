@@ -1,9 +1,7 @@
 # io
 
-Import/eksport sygnałów i metadanych (EDF/BDF/FIF/CSV jako docelowe formaty).
+Warstwa wymiany sygnałów próbkowanych wraz z metadanymi. Podstawowe planowane formaty: CSV/TSV z jawnym manifestem oraz NumPy; formaty domenowe, np. EDF/BDF/FIF, mogą być obsługiwane przez opcjonalne adaptery.
 
-Nie tracić informacji o jednostkach, montażu, kanale i próbkowaniu.
+Nie zmieniać samoczynnie skali amplitudy, próbkowania, orientacji osi ani kolejności kanałów. Dane bez opisanych jednostek wymagają jawnego uzupełnienia lub odrzucenia.
 
-Zasady: identyfikator źródła, znormalizowane jednostki, jawny timestamp, opis błędów i limit zasobów. Gdy funkcjonalność zależy od zewnętrznego runtime, testować ją na jawnej wersji backendu i sprzętu.
-
-Status: **PLANNED / NOT_IMPLEMENTED**. [Kontrakty](../../../docs/contracts.md), [testy](../../../docs/testing.md).
+**PLANNED / NOT_IMPLEMENTED.**
