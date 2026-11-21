@@ -20,3 +20,5 @@ python scripts/validate_pages.py
 ```
 
 Po otwarciu PR należy powtórzyć kontrole w GitHub-hosted CI na **dokładnym SHA**. Przed udokumentowaniem wyniku testu nie wpisywać PASS. Testy realnej aparatury, porównanie SciPy, E2E i benchmarki są **NOT_RUN**.
+
+[GitHub Actions #44950451927](https://github.com/MatPomGit/lib-sig/actions/runs/44950451927) wykonał **103/103 testy PASS** na SHA `4111ff4ef96290c155ec33eefb9305ed969038cf` z NumPy 2.3.5 (wheel CPython 3.11). Zmiana metadanych wymaga ponowienia testów na nowym HEAD; wyniki nie dowodzą walidacji na urządzeniach.
