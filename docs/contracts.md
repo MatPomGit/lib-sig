@@ -1,6 +1,6 @@
 # API Signal: core + elementarny FIR
 
-**Status: IMPLEMENTED (EXPERIMENTAL), bez wydania.** Typy podstawowe i walidatory są przygotowane w `core`; funkcje DSP są dostępne w gałęzi rozwojowej opartej na niepołączonym PR #2.
+**Status: IMPLEMENTED (EXPERIMENTAL), bez wydania.** Typy podstawowe i walidatory są przygotowane w `core`; funkcje DSP są dostępne w PR #3 względem `main`, zawierającego już zatwierdzony moduł `core` z PR #2.
 
 | Typ/funkcja | Obecne pola lub semantyka | Status |
 | --- | --- | --- |

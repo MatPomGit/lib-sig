@@ -3,7 +3,7 @@
 | Moduł | Odpowiedzialność | Status |
 | --- | --- | --- |
 | `lib_sig.core` | Sygnały wielokanałowe, czas, jednostki | IMPLEMENTED EXPERIMENTAL |
-| `lib_sig.filters` | Causal FIR i średnia ruchoma (bez resamplingu) | IMPLEMENTED EXPERIMENTAL (stacked) |
+| `lib_sig.filters` | Causal FIR i średnia ruchoma (bez resamplingu) | IMPLEMENTED EXPERIMENTAL (PR #3) |
 | `lib_sig.io` | Import/eksport i pochodzenie danych | PLANNED |
 | `lib_sig.spectral` | FFT, PSD, spektrogramy | PLANNED |
 | `lib_sig.events` | Markery, epoki i korelacja czasu | PLANNED |

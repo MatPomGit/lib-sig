@@ -2,11 +2,11 @@
 
 **Signal:** ogólna biblioteka przetwarzania próbkowanych sygnałów z aparatury badawczej, robotyki, akustyki i biosensorów.
 
-**Status: DEVELOPMENT / NOT_RELEASED.** Dostępny jest `core` (zależny PR #2) i eksperymentalny moduł `filters` w tej gałęzi. Pozostałe moduły są planowane.
+**Status: DEVELOPMENT / NOT_RELEASED.** `core` jest już scalony do `main` (PR #2). Ta gałąź dodaje eksperymentalny moduł `filters` w PR #3. Pozostałe moduły są planowane.
 
 | Moduł | Zakres | Status |
 | --- | --- | --- |
-| [core](src/lib_sig/core/README.md) | Wielokanałowy sygnał, jednostki i czas | IMPLEMENTED (PR #2) |
+| [core](src/lib_sig/core/README.md) | Wielokanałowy sygnał, jednostki i czas | IMPLEMENTED (MAIN) |
 | [filters](src/lib_sig/filters/README.md) | Krótki causal FIR i średnia ruchoma | IMPLEMENTED (EXPERIMENTAL) |
 | [io](src/lib_sig/io/README.md) | Import/eksport | PLANNED |
 | [spectral](src/lib_sig/spectral/README.md) | FFT i PSD | PLANNED |

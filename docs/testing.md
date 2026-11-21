@@ -14,3 +14,5 @@ python scripts/validate_pages.py
 Plan dalszy: porównanie odpowiedzi impulsowej i częstotliwościowej z referencją NumPy/SciPy, benchmark długich wejść, testy antyaliasingu i resamplingu oraz E2E na danych z uprawnionych urządzeń. Te zakresy są **NOT_RUN** do czasu przeprowadzenia testów.
 
 Nie utożsamiać wykonanych syntetycznych testów z walidacją sprzętową lub naukowym benchmarkiem.
+
+Po scaleniu PR #2 zmieniono bazę PR #3 na `main`. Dla nowego HEAD wymagane jest osobne CI potwierdzające zachowanie testów po retargetowaniu; stan `PASS` poprzedniego SHA nie zastępuje finalnego wyniku.
