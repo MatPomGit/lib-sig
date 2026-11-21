@@ -1,10 +1,10 @@
-# Użycie z katalogu źródłowego
+# Użycie eksperymentalnego modułu Signal
 
-Dostępny jest eksperymentalny, niewydany moduł Python `lib_sig.core`. Weryfikację importu można wykonać lokalnie, bez pobierania zależności:
+`core` i `filters` działają bez zewnętrznych zależności. Analiza FFT/PSD wymaga przypiętego NumPy 2.3.5. Przykładowa instalacja zależności w izolowanym środowisku deweloperskim:
 
 ```bash
-PYTHONPATH=src python -c 'from lib_sig import TimeAxis, ChannelDescriptor, SignalBlock'
-python -m unittest discover -s tests -p 'test_signal_core.py' -v
+python -m pip install --only-binary=:all: -r requirements-spectral.txt
+PYTHONPATH=src python -m unittest discover -s tests -p 'test_spectral.py' -v
 ```
 
-Nie ma jeszcze instalowalnego pakietu, `pyproject.toml`, opublikowanego wheel ani zatwierdzonej licencji. Nie należy wykorzystywać tego kodu w produkcji lub w badaniach bez niezależnej kontroli kompatybilności i testów.
+Brak instalowalnego wheel, `pyproject.toml` i zatwierdzonej licencji biblioteki. Jest to wyłącznie dokumentacja pracy na źródłach, nie instrukcja wdrożenia produkcyjnego.

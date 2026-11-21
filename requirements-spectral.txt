@@ -1,0 +1,3 @@
+# Pinned for deterministic CI of the optional numerical FFT backend.
+# This is not a release-approved, hash-locked dependency manifest.
+numpy==2.3.5

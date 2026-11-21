@@ -1,23 +1,24 @@
 # Architektura lib-sig
 
-`lib-sig` zapewni wspólny model **sygnału próbkowanego**, niezależny od dziedziny pomiaru. Dane mogą pochodzić z biosensorów, mikrofonów, IMU, maszyn, robotów lub symulacji.
+`lib-sig` wspiera ogólne DSP wielokanałowych sygnałów z badań, robotyki, akustyki i biosensorów. Warstwa `core` definiuje niezmienny model danych z jawnie wskazanym czasem i jednostkami.
 
 ```text
-Źródło / plik / biblioteka urządzenia
-                |
-               io
-                |
-     core (próbki, czas, jednostki)
-                |
-   filters / spectral / events
-                |
-       quality / features
-                |
-        aplikacja badawcza
+Źródło danych / plik / aplikacja
+            |
+        core: SignalBlock
+            |
+        +---+-----+
+        |         |
+     filters    spectral
+        |         |
+ causal FIR    RFFT / PSD
+        +----+----+
+             |
+        odbiorca danych
 ```
 
-Rdzeń nie narzuca jednego SDK, klasy urządzenia ani formatu. Sygnały mogą mieć regularne lub nieregularne próbkowanie; moduły wymagające stałego kroku czasu muszą weryfikować to założenie. Filtry powinny raportować charakterystykę, fazę, opóźnienie i sposób traktowania brakujących próbek.
+`filters` w PR #3 działa bez zewnętrznych zależności i nie stosuje paddingu. `spectral` w PR #4 korzysta z NumPy, obsługuje regularny czas, okna boxcar/Hann i zwraca jednostronną PSD. Nie interpoluje danych brakujących. Wszelkie obliczenia muszą zachowywać pochodzenie, jednostki i ujawniać normalizację.
 
-Przetwarzanie sygnału nie obejmuje rozpoznawania mowy (`lib-audio`), obrazu (`lib-vis`), śledzenia tożsamości obiektu (`lib-track`) ani komunikacji ROS2 (`lib-ros`). Warstwy wyższego poziomu mogą wykorzystywać API DSP bez kopiowania implementacji.
+Biblioteka nie odpowiada za ASR/TTS (`lib-audio`), przetwarzanie obrazu (`lib-vis`), śledzenie obiektów (`lib-track`) ani transport ROS2 (`lib-ros`). Nie przechowuje danych eksperymentalnych ani identyfikatorów sprzętu.
 
-Status: **CORE IMPLEMENTED / REMAINDER PLANNED / NOT_RELEASED**. Moduły `filters`, `spectral`, `io`, `events`, `features` i `quality` pozostają dokumentacją. Szczegóły: [komponenty](docs/architecture/components.md), [kontrakty](docs/contracts.md), [przepływ danych](docs/architecture/data-flow.md) i [ADR-0004](docs/adr/0004-boundaries.md).
+**Status:** `core` MAIN, `filters` PR #3, `spectral` PR #4. Brak release, E2E i walidacji sprzętu. Szczegóły: [kontrakty](docs/contracts.md), [komponenty](docs/architecture/components.md), [testy](docs/testing.md).

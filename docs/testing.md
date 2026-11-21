@@ -1,18 +1,22 @@
-# Walidacja lib-sig
+# Walidacja Signal
 
-Kontrole `core` zawierają testy osi czasu i danych. Nowe testy `tests/test_fir_filter.py` obejmują splot, średnią ruchomą, tłumienie Nyquista, próbkowanie regularne, maskowanie braków, jednostki i propagację błędów. Wszystkie dane są syntetyczne. [Scaffold CI #44949313509](https://github.com/MatPomGit/lib-sig/actions/runs/44949313509) uruchomił 90 testów na commicie `e1aed637fa13ab3ae5bebafdaa937d6c2a4b0f04` i zakończył się PASS. Po zmianie SHA wymagane jest ponowne CI.
+W repozytorium rozdzielono testy `core`, `filters` (PR #3) i `spectral` (zależny PR #4). Testy widmowe używają sygnałów syntetycznych o znanej odpowiedzi.
 
-Komendy:
+Obowiązkowe kontrole widmowe:
+
+1. Przypisana harmoniczna w RFFT: właściwy bin, zespolona amplituda i brak zera dodanego przez padding.
+2. Parseval: całka z jednostronnej PSD odpowiada mocy średniej bez detrend.
+3. DC i Nyquist bez dwukrotnego skalowania; poprawne podwojenie dodatnich binów.
+4. Normalizacja periodycznego okna Hann przez sumę kwadratów wag.
+5. Dwa kanały z różnymi jednostkami, zachowane identyfikatory i timebase.
+6. Odrzucenie sygnału nieregularnego, zamaskowanych braków, złych argumentów i przepełnienia.
 
 ```bash
+python -m pip install --only-binary=:all: -r requirements-spectral.txt
 PYTHONPATH=src python -m unittest discover -s tests -v
 python scripts/validate_repository.py --phase scaffold
 python scripts/validate_documentation.py
 python scripts/validate_pages.py
 ```
 
-Plan dalszy: porównanie odpowiedzi impulsowej i częstotliwościowej z referencją NumPy/SciPy, benchmark długich wejść, testy antyaliasingu i resamplingu oraz E2E na danych z uprawnionych urządzeń. Te zakresy są **NOT_RUN** do czasu przeprowadzenia testów.
-
-Nie utożsamiać wykonanych syntetycznych testów z walidacją sprzętową lub naukowym benchmarkiem.
-
-Po scaleniu PR #2 zmieniono bazę PR #3 na `main`. [Scaffold CI #44949547334](https://github.com/MatPomGit/lib-sig/actions/runs/44949547334) potwierdził **90/90 PASS na `d1f60245daeb4322dfab9d15ff90dd93a395300b`**, po przeniesieniu bazy na `main`. Kolejna zmiana SHA wymaga ponownego CI.
+Po otwarciu PR należy powtórzyć kontrole w GitHub-hosted CI na **dokładnym SHA**. Przed udokumentowaniem wyniku testu nie wpisywać PASS. Testy realnej aparatury, porównanie SciPy, E2E i benchmarki są **NOT_RUN**.

@@ -1,9 +1,7 @@
-# Dokumentacja lib-sig
+# Dokumentacja techniczna lib-sig
 
-Akwizycja i przetwarzanie wielokanałowych sygnałów pomiarowych, w tym EEG, EMG, EDA i PPG.
+`lib-sig` (Signal) jest biblioteką ogólnego przetwarzania sygnałów próbkowanych z robotyki, automatyki, akustyki i biosensorów. Rdzeń oraz filtry mają osobne PR; nowy moduł widmowy obejmuje FFT/PSD i posiada własne testy.
 
-- [Architektura](architecture/README.md), [moduły](architecture/components.md), [przepływy](architecture/data-flow.md), [dystrybucja](architecture/distribution.md).
-- [Kontrakt](contracts.md), [zależności](dependencies.md), [konsumenci](consumers.md), [zgodność](compatibility.md).
-- [Testy](testing.md), [roadmap](roadmap.md), [instalacja](installation.md), [prywatność](privacy.md), [ADR-0004](adr/0004-boundaries.md).
+[Architektura](architecture/README.md) · [Komponenty](architecture/components.md) · [Kontrakt](contracts.md) · [Zależności](dependencies.md) · [Testy](testing.md) · [Roadmap](roadmap.md) · [Prywatność](privacy.md).
 
-Tylko katalog `pages/` jest możliwym źródłem publikowanych stron. Status wszystkich integracji: NOT_IMPLEMENTED.
+Dokumentacja techniczna nie jest publikowana automatycznie. Publiczne Pages mają oddzielny katalog `pages/`. Nie ma wydania ani walidacji sprzętowej.

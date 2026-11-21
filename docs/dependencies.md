@@ -1,5 +1,7 @@
 # Zależności i łańcuch dostaw
 
-Planowany rdzeń numeryczny może wykorzystywać **NumPy** i **SciPy** do reprezentacji wektorowej, filtrów i analiz widmowych, zamiast implementować od nowa algorytmy DSP. Opcjonalne biblioteki domenowe, np. MNE-Python (EEG) lub BrainFlow (akwizycja), pozostają zależnościami adapterów lub konsumentów, nie wymaganiem każdej instalacji.
+`core` i `filters` korzystają wyłącznie ze standardowej biblioteki Python. **Moduł `spectral` wymaga NumPy**, ładowanego leniwie podczas obliczeń. Testowana, przypięta wersja to `numpy==2.3.5` z [requirements-spectral.txt](../requirements-spectral.txt). CI instaluje wyłącznie koła binarne w izolowanym GitHub-hosted runnerze. Wydanie i lockfile z sumami hash wymagają oddzielnego przeglądu supply-chain.
 
-Wszystkie wymienione pakiety są kandydatami, nie potwierdzonymi zależnościami. Brak manifestu, lockfile i zbudowanego artefaktu. Przed implementacją trzeba ustalić wersje, licencje, ograniczenia OS i test reprodukowalnego środowiska.
+SciPy jest kandydatem na następny etap: porównania referencyjne, Welch PSD, filtry i resampling. MNE, BrainFlow i inne SDK pozostają opcjonalnymi zależnościami odbiorców, nie rdzenia.
+
+Brak `pyproject.toml`, wydania i pakietu produkcyjnego. Weryfikacja licencji zależności przechodnich i hash-based lockfile: **NOT_RUN**.

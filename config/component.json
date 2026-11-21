@@ -15,7 +15,9 @@
     "src/lib_sig"
   ],
   "api_contract": "contracts/api.json",
-  "dependencies": [],
+  "dependencies": [
+    "numpy==2.3.5 (spectral only; lazy import)"
+  ],
   "peer_dependencies": [],
   "consumers": [],
   "supported_platforms": [],

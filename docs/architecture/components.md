@@ -2,14 +2,12 @@
 
 | Moduł | Odpowiedzialność | Status |
 | --- | --- | --- |
-| `lib_sig.core` | Sygnały wielokanałowe, czas, jednostki | IMPLEMENTED EXPERIMENTAL |
-| `lib_sig.filters` | Causal FIR i średnia ruchoma (bez resamplingu) | IMPLEMENTED EXPERIMENTAL (PR #3) |
-| `lib_sig.io` | Import/eksport i pochodzenie danych | PLANNED |
-| `lib_sig.spectral` | FFT, PSD, spektrogramy | PLANNED |
+| `lib_sig.core` | Sygnały wielokanałowe, czas, jednostki | IMPLEMENTED (main) |
+| `lib_sig.filters` | Causal FIR i średnia ruchoma | IMPLEMENTED (PR #3) |
+| `lib_sig.spectral` | RFFT, jednostronny periodogram PSD | IMPLEMENTED (stacked PR #4) |
+| `lib_sig.io` | Import/eksport i pochodzenie | PLANNED |
 | `lib_sig.events` | Markery, epoki i korelacja czasu | PLANNED |
-| `lib_sig.quality` | Braki, artefakty, nasycenie, kompletność | PLANNED |
-| `lib_sig.features` | Statystyki i uniwersalne deskryptory | PLANNED |
+| `lib_sig.quality` | Braki, artefakty, kompletność | PLANNED |
+| `lib_sig.features` | Deskryptory statystyczne | PLANNED |
 
-`lib-sig` obejmuje DSP sygnałów akustycznych, mechanicznych, elektrycznych, biologicznych i symulowanych. Nie obejmuje akwizycji aparatury, ASR/TTS, detekcji obiektów, trackingu ani diagnostyki medycznej.
-
-Filtr `valid` zmniejsza długość sygnału; zachowana jest oś regularna, a pierwszy timestamp odpowiada najnowszej próbce pierwszego pełnego okna. [Kontrakt](../contracts.md).
+Wszystkie operacje wymagają jawnych jednostek i osi czasu. FFT/PSD nie dopuszcza nieregularnych próbek ani braków w danych. Interpretacja kliniczna i urządzenia pozostają u odbiorców. [Kontrakty](../contracts.md).
