@@ -55,6 +55,20 @@ class SignalCoreTests(unittest.TestCase):
         with self.assertRaises(SignalValidationError):
             axis.timestamp_at(10**1000)
 
+    def test_regular_axis_rejects_float_timestamp_collisions(self):
+        # A positive sample rate is insufficient when the absolute timestamp
+        # is too large for its sampling interval to be represented in float.
+        axis = TimeAxis("regular", "sensor", start_s=1e16, sampling_rate_hz=10.)
+        self.assertEqual(axis.timestamp_at(0), axis.timestamp_at(1))
+        with self.assertRaises(SignalValidationError) as exc:
+            self.block(time_axis=axis)
+        self.assertEqual(exc.exception.code, "TIMEBASE_MISMATCH")
+
+    def test_single_sample_can_use_low_resolution_epoch(self):
+        axis = TimeAxis("regular", "sensor", start_s=1e16, sampling_rate_hz=10.)
+        block = self.block(samples=((1., 2.),), time_axis=axis)
+        self.assertEqual(block.sample_count, 1)
+
     def test_invalid_irregular_axis(self):
         for stamps in ((), (2., 1.), (1., 1.), (math.nan,), [1., 2.], (0., math.inf)):
             with self.subTest(stamps=stamps), self.assertRaises(SignalValidationError) as exc:

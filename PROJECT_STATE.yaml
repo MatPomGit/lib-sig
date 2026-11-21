@@ -6,7 +6,7 @@ programme: research-autopilot
 owner: MatPomGit
 updated: 2026-11-21
 lifecycle: development
-evidence_status: unit_tests_75_pass
+evidence_status: previous_ci_75_pass_new_precision_tests_pending
 device_validation_status: not_run
 pages_status: not_configured
 release_status: not_released

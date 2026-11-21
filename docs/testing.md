@@ -1,6 +1,6 @@
 # Walidacja lib-sig
 
-Moduł `core` ma 15 deterministycznych testów jednostkowych w `tests/test_signal_core.py`, w tym wykrywanie nieprzedstawialnych znaczników czasu. Pozostałe kontrole scaffold CI dotyczą struktury i dokumentacji. Testy planowanych algorytmów DSP pozostają niewykonane.
+Moduł `core` ma 17 deterministycznych testów jednostkowych w `tests/test_signal_core.py`, w tym wykrywanie przepełnień oraz kolizji znaczników czasu wynikających z ograniczonej precyzji zmiennoprzecinkowej. Pozostałe kontrole scaffold CI dotyczą struktury i dokumentacji. Testy planowanych algorytmów DSP pozostają niewykonane.
 
 1. Sinusoidy i kombinacje harmoniczne: dokładne piki FFT/PSD, jednostki i normalizacja.
 2. Filtry FIR/IIR: odpowiedź częstotliwościowa, opóźnienie, stan początkowy i efekty brzegowe.

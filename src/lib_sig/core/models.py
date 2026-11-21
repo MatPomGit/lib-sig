@@ -125,14 +125,21 @@ class SignalBlock:
             raise SignalValidationError("INVALID_SHAPE", "samples must be a nonempty tuple of fixed-width rows")
         if self.time_axis.kind == "irregular" and len(self.time_axis.timestamps_s) != len(self.samples):
             raise SignalValidationError("TIMEBASE_MISMATCH", "timestamp count must equal sample count")
-        if self.time_axis.kind == "regular":
-            self.time_axis.timestamp_at(len(self.samples) - 1)
         if self.mask is not None:
             if (type(self.mask) is not tuple or len(self.mask) != len(self.samples)
                     or any(type(row) is not tuple or len(row) != count
                            or any(type(flag) is not bool for flag in row) for row in self.mask)):
                 raise SignalValidationError("INVALID_SHAPE", "mask must match samples and contain only booleans")
+        previous_timestamp = None
         for i, row in enumerate(self.samples):
+            if self.time_axis.kind == "regular":
+                timestamp = self.time_axis.timestamp_at(i)
+                if previous_timestamp is not None and timestamp <= previous_timestamp:
+                    raise SignalValidationError(
+                        "TIMEBASE_MISMATCH",
+                        "sample period is not representable at this timebase precision",
+                    )
+                previous_timestamp = timestamp
             for j, value in enumerate(row):
                 # Invalid measurements require an explicit mask; they are not silently coerced.
                 if not isinstance(value, Real) or isinstance(value, bool):
