@@ -1,5 +1,11 @@
-# Odbiorcy i zależności
+# Potencjalni odbiorcy lib-sig
 
-Wymień znane repozytoria `msc-*`, `app-*` i `lib-*`, które rzeczywiście wykorzystują komponent.
-Dla każdego zapisz `repository`, `version/tag/SHA`, rodzaj integracji, kontrakt i plan migracji.
-Nie wpisuj fikcyjnych odbiorców dla spełnienia szablonu. Brak odbiorcy jest zgodnym statusem projektu rozwojowego.
+| System | Zastosowanie | Status |
+| --- | --- | --- |
+| `lib-exp` | Synchronizacja markerów i próbkowanych bodźców | PROPOSED |
+| `lib-audio` | Uniwersalne FFT, resampling lub filtrowanie audio | PROPOSED |
+| `lib-ros` | DSP dla telemetrii czujników i IMU | PROPOSED |
+| `lib-track` | Filtracja sekwencji numerycznych jako opcjonalna zależność | PROPOSED |
+| `arc-neuro`, `arc-robo`, `arc-xr` | Analizy offline sygnałów z eksperymentów | PROPOSED |
+
+Żaden konsument nie jest jeszcze potwierdzony testem integracyjnym i przypiętą wersją `lib-sig`. Wspólne algorytmy powinny być współdzielone przez pakiet, bez kopiowania ich do konsumentów.

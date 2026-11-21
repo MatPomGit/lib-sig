@@ -1,13 +1,10 @@
-# Rejestr decyzji architektonicznych (ADR)
+# Rejestr ADR
 
-ADR zapisują **dlaczego** wybrano rozwiązanie, jego alternatywy i konsekwencje. Nie zastępują kontraktu API, kodu ani testów.
-
-| ADR | Zakres | Status |
+| ADR | Temat | Status |
 | --- | --- | --- |
-| [0001](0001-contract.md) | Kanoniczne źródło API i kodu | proposed |
+| [0001](0001-contract.md) | Kanoniczny właściciel kodu | proposed |
 | [0002](0002-security-boundaries.md) | Granice zaufania | proposed |
-| [0003](0003-supply-chain.md) | Zależności i pochodzenie wydania | proposed |
+| [0003](0003-supply-chain.md) | Łańcuch dostaw | proposed |
+| [0004](0004-boundaries.md) | Rozdział odpowiedzialności lib-sig | proposed |
 
-Nowy ADR zawiera datę, status `proposed/accepted/rejected/superseded`, kontekst, decyzję lub propozycję, alternatywy, konsekwencje, dowody i linki. `proposed` nie jest autoryzacją wdrożenia. Zmiana zaakceptowanego ADR wymaga następnego rekordu i odnośnika do zastępowanego.
-
-Limit objętości: [standard](../documentation.md).
+ADR jest dokumentacją decyzji, nie dowodem implementacji ani publikacji.

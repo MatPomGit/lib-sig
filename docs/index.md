@@ -1,8 +1,9 @@
-# Dokumentacja wewnętrzna biblioteki
+# Dokumentacja lib-sig
 
-To dokumentacja inżynierska, **nie** źródło publicznych GitHub Pages. Strona używa oddzielnego `pages/`.
+Akwizycja i przetwarzanie wielokanałowych sygnałów pomiarowych, w tym EEG, EMG, EDA i PPG.
 
-- [Architektura](architecture/README.md), [moduły](architecture/components.md), [dystrybucja](architecture/distribution.md).
-- [Kontrakty](contracts.md), [kompatybilność](compatibility.md), [odbiorcy](consumers.md), [zależności](dependencies.md).
-- [Bezpieczeństwo](security/threat-model.md), [supply-chain](security/supply-chain.md), [incydenty](security/incident-response.md).
-- [ADR](adr/README.md), [runbook](operations/runbook.md), [limity dokumentacji](documentation.md), [Pages](pages.md), [wydania](releases.md).
+- [Architektura](architecture/README.md), [moduły](architecture/components.md), [przepływy](architecture/data-flow.md), [dystrybucja](architecture/distribution.md).
+- [Kontrakt](contracts.md), [zależności](dependencies.md), [konsumenci](consumers.md), [zgodność](compatibility.md).
+- [Testy](testing.md), [roadmap](roadmap.md), [instalacja](installation.md), [prywatność](privacy.md), [ADR-0004](adr/0004-boundaries.md).
+
+Tylko katalog `pages/` jest możliwym źródłem publikowanych stron. Status wszystkich integracji: NOT_IMPLEMENTED.

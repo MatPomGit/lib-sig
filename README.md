@@ -1,34 +1,21 @@
-# REPLACE_LIB_TITLE
+# lib-sig
 
-**Rodzaj:** `lib-*` · **Etap:** scaffold · **API:** eksperymentalne, niewydane.  
-**Autor podstawowy:** Mateusz Pomianek; opcjonalni współautorzy po potwierdzeniu wkładu.
+**Signal processing:** uniwersalna biblioteka do reprezentacji, filtrowania, analizy i synchronizacji sygnałów próbkowanych. Obejmuje dane z sensorów przemysłowych i robotycznych, IMU, telemetrię, sygnały akustyczne i biosygnały (EEG, EMG, EDA, PPG). Nie jest ograniczona do biologii.
 
-Repozytorium definiuje jeden komponent wielokrotnego użytku, z jawnie wersjonowanym kontraktem.
-Warto tworzyć osobną bibliotekę dopiero, gdy istnieje rzeczywiste współużycie albo niezależny cykl życia i wersjonowania.
+**Status: ARCHITECTURE_ONLY / NOT_IMPLEMENTED / NOT_RELEASED.** W repozytorium są jedynie specyfikacje i planowane katalogi modułów.
 
-## Publiczny interfejs
+## Moduły
 
-[docs/contracts.md](docs/contracts.md), [contracts/api.json](contracts/api.json).
+| Moduł | Zadanie | Status |
+| --- | --- | --- |
+| [core](src/lib_sig/core/README.md) | Wielokanałowe próbki, jednostki i osie czasu | PLANNED |
+| [io](src/lib_sig/io/README.md) | Wczytywanie i zapisywanie reprezentacji sygnałów | PLANNED |
+| [filters](src/lib_sig/filters/README.md) | DSP, filtracja i resampling | PLANNED |
+| [spectral](src/lib_sig/spectral/README.md) | FFT, PSD i analizy czasowo-częstotliwościowe | PLANNED |
+| [events](src/lib_sig/events/README.md) | Zdarzenia, okna i synchronizacja strumieni | PLANNED |
+| [quality](src/lib_sig/quality/README.md) | Nasycenie, braki i jakość sygnału | PLANNED |
+| [features](src/lib_sig/features/README.md) | Deskryptory statystyczne i widmowe | PLANNED |
 
-## Zależności i kompatybilność
+Biblioteka nie steruje urządzeniami. Funkcje mowy, VAD, ASR i TTS należą do `lib-audio`, obrazy do `lib-vis`, a tracking do `lib-track`. `lib-eye` odpowiada za okulografię. Parametry i identyfikatory aparatury należą do prywatnego katalogu `devices`.
 
-[docs/compatibility.md](docs/compatibility.md), [docs/consumers.md](docs/consumers.md).
-
-## Walidacja szkieletu
-
-```bash
-python scripts/validate_repository.py --phase scaffold
-python scripts/validate_documentation.py
-python scripts/validate_pages.py
-python -m unittest discover -s tests -v
-```
-
-Zacznij od [TEMPLATE_SETUP.md](TEMPLATE_SETUP.md). GitHub Packages jest opcjonalnym kanałem zależnym od ekosystemu.
-
-## Audyt i kontrole jakości
-
-Zobacz [audyt szablonu z 2026-11-19](reviews/2026-11-19-template-audit.md) i plan działań P0–P2. Publiczne repozytoria mogą korzystać z GitHub-hosted runners. Szablon zawiera minimalny [workflow Scaffold CI](.github/workflows/ci.yml) z walidacją metadanych i testami regresyjnymi; nie buduje ani nie publikuje pakietów.
-
-## Architektura i bezpieczeństwo
-
-[Architektura](ARCHITECTURE.md), [ADR](docs/adr/README.md), [model zagrożeń](docs/security/threat-model.md), [łańcuch dostaw](docs/security/supply-chain.md), [zarządzanie](GOVERNANCE.md) i [limity dokumentacji](docs/documentation.md). Publiczna dokumentacja API korzysta tylko z `pages/` ([Pages](docs/pages.md)); `docs/` pozostaje wewnętrzne. [Wydania LIB](docs/releases.md) wymagają osobnej autoryzacji.
+[Architektura](ARCHITECTURE.md) · [Kontrakt](docs/contracts.md) · [Testy](docs/testing.md) · [Roadmap](docs/roadmap.md). Obecnie nie ma implementacji i publicznych symboli API.

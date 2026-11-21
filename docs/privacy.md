@@ -1,8 +1,7 @@
-# Prywatność, pochodzenie danych i aparatury
+# Prywatność i retencja danych sygnałowych
 
-Żadne rzeczywiste dane uczestników, nagrania, sekrety, zrzuty twarzy i wrażliwe wyniki nie należą do kodu Git.
-Przed wdrożeniem biblioteki, która przetwarza dane osobowe lub komunikuje się z siecią, udokumentuj w tym repozytorium klasy danych, przepływy i network egress oraz wprowadź odpowiednie pola do schematu manifestu. Obecny `config/component.json` nie zawiera pól `data_classification` ani `network_egress`, dlatego nie traktuj ich jako zweryfikowanych.
-Rejestr urządzeń pomiarowych i kontraktów: `MatPomGit/research-autopilot/catalog/equipment/` i `docs/equipment/`.
-Rejestr komputerów i sieci: `MatPomGit/homeserver-infra/docs/infrastructure/network/`.
-Dla adapterów zachowaj `equipment_id`, typ/wersję SDK, jednostki, współrzędne, źródła timestampów, kalibrację, parametry i status pomiarowy.
-Numer seryjny jest właściwością kanonicznego, kontrolowanego rejestru; nie publikuj go w publicznej dokumentacji bez decyzji właściciela.
+Próbki mogą pochodzić z biosensorów, mikrofonów, czujników ruchu, maszyn i systemów robotycznych. Zależnie od źródła mogą ujawniać dane osobowe, zdrowotne, lokalizację albo informacje o infrastrukturze. Ryzyko i uprawnienia ocenia się **dla konkretnego zastosowania**, a nie na podstawie nazwy biblioteki.
+
+Biblioteka nie przechowuje domyślnie surowych próbek ani historii analiz, nie publikuje ich w GitHub Issues, PR, CI lub Pages. Rejestrowanie metadanych ma być minimalne: SHA kodu, opis operacji, typ danych i wynik kontroli; bez payloadów pomiarowych.
+
+Kontrakty urządzeń i dane dostępowe należą do prywatnego repo `devices`. W publicznym repozytorium wykorzystywać wyłącznie dane syntetyczne oraz nieidentyfikujące metadane.

@@ -1,11 +1,15 @@
-# Komponenty i interfejsy
+# Komponenty lib-sig
 
-**Stan: NOT_DEFINED.** Nie istnieją moduły produkcyjne w szablonie.
+| Moduł | Odpowiedzialność | Status |
+| --- | --- | --- |
+| `lib_sig.core` | Sygnały wielokanałowe, czas, jednostki | PLANNED |
+| `lib_sig.io` | Import/eksport i pochodzenie danych | PLANNED |
+| `lib_sig.filters` | Filtry, resampling, detrending | PLANNED |
+| `lib_sig.spectral` | FFT, PSD, spektrogramy | PLANNED |
+| `lib_sig.events` | Markery, epoki i korelacja czasu | PLANNED |
+| `lib_sig.quality` | Braki, artefakty, nasycenie, kompletność | PLANNED |
+| `lib_sig.features` | Statystyki i uniwersalne deskryptory | PLANNED |
 
-| Moduł | Źródła | Kontrakt API | Dowód |
-| --- | --- | --- | --- |
-| Brak gotowego modułu | NOT_APPLICABLE | [contracts/api.json](../../contracts/api.json) | NOT_RUN |
+Biblioteka obejmuje DSP dla sygnałów akustycznych, mechanicznych, elektrycznych, biologicznych i symulowanych. Nie obejmuje sterowania aparaturą, ASR/TTS, detekcji obiektów, trackingu ani diagnostyki medycznej. Moduły nie są jeszcze kodem.
 
-Po wdrożeniu kodu zapisz rzeczywiste moduły, ich odpowiedzialność, publiczne symbole, typy, semantykę błędów, jednostki, zależności i wersję API/ABI. Zmiany niekompatybilne wymagają osobnego planu migracji oraz testów odbiorców.
-
-Zobacz [kompatybilność](../compatibility.md), [konsumentów](../consumers.md) i [ADR](../adr/README.md). Nie kopiuj implementacji ani całego kontraktu do tego opisu.
+[Kontrakt](../contracts.md) · [Przepływ](data-flow.md).

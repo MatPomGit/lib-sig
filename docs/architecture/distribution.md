@@ -1,9 +1,7 @@
-# Budowanie, pakowanie i dystrybucja
+# Dystrybucja
 
-**Stan: NOT_RELEASED.** W szablonie nie wybrano menedżera pakietów ani registry.
+Docelowa forma to pakiet Python `lib-sig` ze źródeł `src/lib_sig/`. Obecnie brak `pyproject.toml`, importowalnego modułu i wydania.
 
-Po wyborze profilu npm, Maven, NuGet, Python, Unity UPM lub OCI udokumentuj rzeczywisty runtime, wersje, narzędzia build, manifest/lockfile, licencje, hashe i metadane pakietu. Przetestuj instalację w czystym środowisku i zgodność z odbiorcami.
+Przed dystrybucją wymagane są: licencja, deklaracja zależności i ich licencji, testy numeryczne na konkretnym SHA, deterministyczny build, czysta instalacja oraz ocena zachowania na wspieranych platformach. Opcjonalne adaptery domenowe nie powinny wymuszać instalacji wszystkich SDK.
 
-**Nie utożsamiaj** zielonego CI, zbudowanego artefaktu, podpisanego release, publikacji do registry oraz zweryfikowanego wdrożenia. Każdy etap wymaga odrębnego dowodu i uprawnień.
-
-Powiązania: [wydania](../releases.md), [supply-chain](../security/supply-chain.md), [runbook](../operations/runbook.md).
+Dokumentacja Pages pochodzi jedynie z `pages/`; obecne zmiany nie wdrażają ani nie publikują witryny.
