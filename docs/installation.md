@@ -1,5 +1,5 @@
 # Instalacja
 
-Uzupełnij **po** wdrożeniu konkretnego stosu technologicznego. Opisz wymagania systemu, instrukcję środowiska izolowanego, sposób użycia stabilnego wydania i sprawdzenie checksum.
-Przykłady mają używać przypiętej wersji, tagu lub SHA, nie przypadkowego HEAD.
-Zależności nie są instalowane automatycznie podczas walidacji szablonu.
+Projekt jest w fazie architektury; **nie ma instalowalnego pakietu**. Nie podano komendy `pip install` udającej istniejące wydanie.
+
+Po implementacji będzie wymagana izolowana instalacja z przypiętego SHA/tagu, sprawdzone zależności i aktywny, autoryzowany backend. Działanie testów należy potwierdzić osobno na modelu/urządzeniu.

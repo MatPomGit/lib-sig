@@ -1,9 +1,5 @@
-# Budowanie, pakowanie i dystrybucja
+# Dystrybucja
 
-**Stan: NOT_RELEASED.** W szablonie nie wybrano menedżera pakietów ani registry.
+Preferowana forma docelowa: pakiet Python `lib-sig` z `src/lib_sig/`. Brak `pyproject.toml`, kodu uruchamialnego i opublikowanego artefaktu.
 
-Po wyborze profilu npm, Maven, NuGet, Python, Unity UPM lub OCI udokumentuj rzeczywisty runtime, wersje, narzędzia build, manifest/lockfile, licencje, hashe i metadane pakietu. Przetestuj instalację w czystym środowisku i zgodność z odbiorcami.
-
-**Nie utożsamiaj** zielonego CI, zbudowanego artefaktu, podpisanego release, publikacji do registry oraz zweryfikowanego wdrożenia. Każdy etap wymaga odrębnego dowodu i uprawnień.
-
-Powiązania: [wydania](../releases.md), [supply-chain](../security/supply-chain.md), [runbook](../operations/runbook.md).
+Wydanie wymaga sprawdzonej licencji, wersji i pochodzenia SDK/modeli, minimalnych uprawnień, przejścia testów na konkretnym SHA, audytu zależności oraz clean-install. Integracje sprzętowe muszą mieć własną bramkę E2E. Pages korzystają z osobnego `pages/` i nie są wdrażane przez ten PR.

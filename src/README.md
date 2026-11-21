@@ -1,5 +1,3 @@
-# Kod źródłowy
+# Planowany pakiet lib_sig
 
-Docelowy układ zależy od platformy; ten katalog nie zawiera działającego produktu.
-W przypadku UPM poprawnym korzeniem może być `Runtime/` i `Editor/`, dla Androida `app/src`, dla web `src/`, a dla Pythona `src/<package>/`.
-Pozostań przy jednym kanonicznym właścicielu źródeł.
+Docelowa struktura źródeł: [lib_sig](lib_sig/README.md). Obecnie katalogi zawierają wyłącznie dokumentację architektury, bez importowalnego kodu.

@@ -1,11 +1,13 @@
-# Komponenty i interfejsy
+# Planowane komponenty
 
-**Stan: NOT_DEFINED.** Nie istnieją moduły produkcyjne w szablonie.
-
-| Moduł | Źródła | Kontrakt API | Dowód |
+| Moduł | Odpowiedzialność | Ograniczenia | Status |
 | --- | --- | --- | --- |
-| Brak gotowego modułu | NOT_APPLICABLE | [contracts/api.json](../../contracts/api.json) | NOT_RUN |
+| `lib_sig.io` | Import/eksport sygnałów i metadanych (EDF/BDF/FIF/CSV jako docelowe formaty) | Nie tracić informacji o jednostkach, montażu, kanale i próbkowaniu | PLANNED |
+| `lib_sig.filters` | Filtry cyfrowe, resampling i kontrola aliasingu | Jawne pasmo, rząd, faza, kompensacja opóźnienia, znane parametry | PLANNED |
+| `lib_sig.events` | Zdarzenia, epoki i wyrównanie zegarów | Jawny timebase i niepewność synchronizacji | PLANNED |
+| `lib_sig.quality` | Kontrola artefaktów, braków i nasycenia kanałów | Metryki i progi jako parametry; brak udawania oceny klinicznej | PLANNED |
+| `lib_sig.features` | Widma, moc pasmowa, cechy w dziedzinie czasu i częstotliwości | Zachować jednostki, okno, overlap i parametry normalizacji | PLANNED |
 
-Po wdrożeniu kodu zapisz rzeczywiste moduły, ich odpowiedzialność, publiczne symbole, typy, semantykę błędów, jednostki, zależności i wersję API/ABI. Zmiany niekompatybilne wymagają osobnego planu migracji oraz testów odbiorców.
+Biblioteka odpowiada za wspólną reprezentację sygnału, jakość danych, filtrowanie, synchronizację i ekstrakcję cech; nie steruje hardware i nie wykonuje diagnostyki klinicznej. lib-eye odpowiada za okulografię, lib-audio za semantykę mowy i ASR/TTS, a devices za kontrakty urządzeń.
 
-Zobacz [kompatybilność](../compatibility.md), [konsumentów](../consumers.md) i [ADR](../adr/README.md). Nie kopiuj implementacji ani całego kontraktu do tego opisu.
+Publiczne symbole implementować dopiero po teście kontraktowym; `contracts/api.json` rejestruje tylko rzeczywistą implementację.

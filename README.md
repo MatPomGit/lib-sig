@@ -1,34 +1,19 @@
-# REPLACE_LIB_TITLE
+# lib-sig
 
-**Rodzaj:** `lib-*` · **Etap:** scaffold · **API:** eksperymentalne, niewydane.  
-**Autor podstawowy:** Mateusz Pomianek; opcjonalni współautorzy po potwierdzeniu wkładu.
+Akwizycja i przetwarzanie wielokanałowych sygnałów pomiarowych, w tym EEG, EMG, EDA i PPG.
 
-Repozytorium definiuje jeden komponent wielokrotnego użytku, z jawnie wersjonowanym kontraktem.
-Warto tworzyć osobną bibliotekę dopiero, gdy istnieje rzeczywiste współużycie albo niezależny cykl życia i wersjonowania.
+Status: **ARCHITECTURE_ONLY / NOT_IMPLEMENTED / NOT_RELEASED**. Biblioteka zawiera strukturę planowanych modułów i kontraktów, bez instalowalnego pakietu i rzeczywistego przetwarzania danych.
 
-## Publiczny interfejs
+## Moduły
 
-[docs/contracts.md](docs/contracts.md), [contracts/api.json](contracts/api.json).
+| Moduł | Zadanie | Status |
+| --- | --- | --- |
+| [io](src/lib_sig/io/README.md) | Import/eksport sygnałów i metadanych (EDF/BDF/FIF/CSV jako docelowe formaty) | PLANNED |
+| [filters](src/lib_sig/filters/README.md) | Filtry cyfrowe, resampling i kontrola aliasingu | PLANNED |
+| [events](src/lib_sig/events/README.md) | Zdarzenia, epoki i wyrównanie zegarów | PLANNED |
+| [quality](src/lib_sig/quality/README.md) | Kontrola artefaktów, braków i nasycenia kanałów | PLANNED |
+| [features](src/lib_sig/features/README.md) | Widma, moc pasmowa, cechy w dziedzinie czasu i częstotliwości | PLANNED |
 
-## Zależności i kompatybilność
+Biblioteka odpowiada za wspólną reprezentację sygnału, jakość danych, filtrowanie, synchronizację i ekstrakcję cech; nie steruje hardware i nie wykonuje diagnostyki klinicznej. lib-eye odpowiada za okulografię, lib-audio za semantykę mowy i ASR/TTS, a devices za kontrakty urządzeń.
 
-[docs/compatibility.md](docs/compatibility.md), [docs/consumers.md](docs/consumers.md).
-
-## Walidacja szkieletu
-
-```bash
-python scripts/validate_repository.py --phase scaffold
-python scripts/validate_documentation.py
-python scripts/validate_pages.py
-python -m unittest discover -s tests -v
-```
-
-Zacznij od [TEMPLATE_SETUP.md](TEMPLATE_SETUP.md). GitHub Packages jest opcjonalnym kanałem zależnym od ekosystemu.
-
-## Audyt i kontrole jakości
-
-Zobacz [audyt szablonu z 2026-11-19](reviews/2026-11-19-template-audit.md) i plan działań P0–P2. Publiczne repozytoria mogą korzystać z GitHub-hosted runners. Szablon zawiera minimalny [workflow Scaffold CI](.github/workflows/ci.yml) z walidacją metadanych i testami regresyjnymi; nie buduje ani nie publikuje pakietów.
-
-## Architektura i bezpieczeństwo
-
-[Architektura](ARCHITECTURE.md), [ADR](docs/adr/README.md), [model zagrożeń](docs/security/threat-model.md), [łańcuch dostaw](docs/security/supply-chain.md), [zarządzanie](GOVERNANCE.md) i [limity dokumentacji](docs/documentation.md). Publiczna dokumentacja API korzysta tylko z `pages/` ([Pages](docs/pages.md)); `docs/` pozostaje wewnętrzne. [Wydania LIB](docs/releases.md) wymagają osobnej autoryzacji.
+Zobacz [architekturę](ARCHITECTURE.md), [kontrakt](docs/contracts.md), [plan testów](docs/testing.md), [roadmap](docs/roadmap.md) i [prywatność](docs/privacy.md). Publiczne symbole w `contracts/api.json` pozostają puste do czasu implementacji. Nie publikowano Release ani Pages.
