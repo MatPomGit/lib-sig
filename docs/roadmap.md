@@ -4,7 +4,7 @@
 | --- | --- | --- |
 | D0 | Struktura, kontrakty i dokumentacja | IMPLEMENTED (ARCHITECTURE) |
 | D1 | Typy danych, walidacja i jednostki | IMPLEMENTED, REVIEW PENDING (PR #2) |
-| D2 | Jedna elementarna operacja FIR + testy syntetyczne | IMPLEMENTED IN STACKED BRANCH, CI PENDING |
+| D2 | Jedna elementarna operacja FIR + testy syntetyczne | IMPLEMENTED IN STACKED BRANCH, CI PASS 90 TESTS |
 | D3 | Reużycie SciPy, strumienie i synchronizacja | NOT_STARTED |
 | D4 | E2E na uprawnionym host i odbiorca | NOT_STARTED |
 
