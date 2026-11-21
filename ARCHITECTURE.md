@@ -20,4 +20,4 @@ Rdzeń nie narzuca jednego SDK, klasy urządzenia ani formatu. Sygnały mogą mi
 
 Przetwarzanie sygnału nie obejmuje rozpoznawania mowy (`lib-audio`), obrazu (`lib-vis`), śledzenia tożsamości obiektu (`lib-track`) ani komunikacji ROS2 (`lib-ros`). Warstwy wyższego poziomu mogą wykorzystywać API DSP bez kopiowania implementacji.
 
-Status: **PROPOSED / NOT_IMPLEMENTED**. Szczegóły: [komponenty](docs/architecture/components.md), [kontrakty](docs/contracts.md), [przepływ danych](docs/architecture/data-flow.md) i [ADR-0004](docs/adr/0004-boundaries.md).
+Status: **CORE IMPLEMENTED / REMAINDER PLANNED / NOT_RELEASED**. Moduły `filters`, `spectral`, `io`, `events`, `features` i `quality` pozostają dokumentacją. Szczegóły: [komponenty](docs/architecture/components.md), [kontrakty](docs/contracts.md), [przepływ danych](docs/architecture/data-flow.md) i [ADR-0004](docs/adr/0004-boundaries.md).

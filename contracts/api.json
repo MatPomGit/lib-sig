@@ -3,9 +3,16 @@
   "name": "lib_sig",
   "api_version": "0.1.0",
   "stability": "experimental",
-  "public_entrypoints": [],
+  "public_entrypoints": [
+    "lib_sig.ChannelDescriptor",
+    "lib_sig.SignalBlock",
+    "lib_sig.SignalValidationError",
+    "lib_sig.TimeAxis"
+  ],
   "serialization_contracts": [],
   "breaking_change_policy": "major_version_with_migration_guide",
   "deprecation_policy": "documented_before_removal",
-  "runtime_requirements": []
+  "runtime_requirements": [
+    "Python >=3.11"
+  ]
 }

@@ -3,7 +3,7 @@
 | Etap | Zadanie | Status |
 | --- | --- | --- |
 | D0 | Struktura, kontrakty i dokumentacja | IN_PROGRESS |
-| D1 | Typy danych, walidacja i jednostki | NOT_STARTED |
+| D1 | Typy danych, walidacja i jednostki | IMPLEMENTED (EXPERIMENTAL), REVIEW PENDING |
 | D2 | Jeden lokalny adapter i mockowane testy | NOT_STARTED |
 | D3 | Strumieniowanie, synchronizacja i obsługa błędów | NOT_STARTED |
 | D4 | E2E na uprawnionym host i odbiorca | NOT_STARTED |

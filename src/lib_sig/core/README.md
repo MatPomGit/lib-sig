@@ -1,7 +1,9 @@
-# core
+# core: model próbkowanego sygnału
 
-Planowane typy danych: `SignalBlock`, `TimeAxis`, `ChannelDescriptor`, `SignalEvent` i `TransformProvenance`. Domyślna kolejność danych `samples[sample,channel]`, z jednoznacznym przypisaniem kanałów i jednostek.
+**Status: IMPLEMENTED (EXPERIMENTAL), bez wydania.** Dostępne: `ChannelDescriptor`, `TimeAxis`, `SignalBlock` i `SignalValidationError`. Źródła: [models.py](models.py). Import po umieszczeniu `src/` na ścieżce Pythona: `from lib_sig import TimeAxis, ChannelDescriptor, SignalBlock`.
 
-Oś czasu może być regularna (start i `sampling_rate_hz > 0`) albo nieregularna (jawny, uporządkowany wektor timestampów). Rzeczywiste i zespolone wartości, maski danych brakujących i kalibracja wymagają osobnej deklaracji. Brak jednostek lub nieregularny sygnał nie może być automatycznie „naprawiany”.
+`SignalBlock.samples` to niepusta, niezmienna krotka wierszy `(sample, channel)`. Każdy kanał wymaga jawnej jednostki. `TimeAxis` obsługuje próbki regularne (`start_s`, `sampling_rate_hz`) i nieregularne (`timestamps_s`), wymagając jawnego `timebase`. Timestamps są w sekundach. Pole `mask` ma `True` dla danych ważnych, `False` dla braków; wartości niekończone są dopuszczalne tylko w pozycjach oznaczonych `False`.
 
-**PLANNED / NOT_IMPLEMENTED.**
+Kod odrzuca niespójne wymiary, zduplikowane kanały, nieprawidłowe jednostki, nieuporządkowany czas i niezamaskowane wartości niekończone. `SignalValidationError.code` zapewnia klasyfikację błędów. Nie ma akwizycji, filtrowania, zapisu na dysk ani zależności od SDK urządzeń.
+
+[Kontrakt](../../../docs/contracts.md) · [Testy](../../../docs/testing.md).
