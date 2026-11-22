@@ -1,20 +1,18 @@
 # Walidacja lib-sig
 
-Moduł `core` ma 17 deterministycznych testów jednostkowych w `tests/test_signal_core.py`, w tym wykrywanie przepełnień oraz kolizji znaczników czasu wynikających z ograniczonej precyzji zmiennoprzecinkowej. Pozostałe kontrole scaffold CI dotyczą struktury i dokumentacji. Testy planowanych algorytmów DSP pozostają niewykonane.
+Kontrole `core` zawierają testy osi czasu i danych. Nowe testy `tests/test_fir_filter.py` obejmują splot, średnią ruchomą, tłumienie Nyquista, próbkowanie regularne, maskowanie braków, jednostki i propagację błędów. Wszystkie dane są syntetyczne. [Scaffold CI #44949313509](https://github.com/MatPomGit/lib-sig/actions/runs/44949313509) uruchomił 90 testów na commicie `e1aed637fa13ab3ae5bebafdaa937d6c2a4b0f04` i zakończył się PASS. Po zmianie SHA wymagane jest ponowne CI.
 
-1. Sinusoidy i kombinacje harmoniczne: dokładne piki FFT/PSD, jednostki i normalizacja.
-2. Filtry FIR/IIR: odpowiedź częstotliwościowa, opóźnienie, stan początkowy i efekty brzegowe.
-3. Resampling, decymacja i aliasing, w tym zapis zmienionej osi czasu.
-4. Nieregularne timestampy, jitter, luki, duplikaty i skoki zegara.
-5. Test wielokanałowych danych z różnymi jednostkami i maską wartości brakujących.
-6. Test import/eksport danych syntetycznych bez przecieku próbek do logów.
-7. Docelowe E2E z sygnałem akustycznym, IMU lub EEG po oddzielnym preflight.
-
-Każdy test musi podać SHA, wersję backendu, parametry, jednostki, metrykę i wynik. Testy filtrów, widm, resamplingu i integracji sprzętowej pozostają **NOT_RUN**.
+Komendy:
 
 ```bash
+PYTHONPATH=src python -m unittest discover -s tests -v
 python scripts/validate_repository.py --phase scaffold
 python scripts/validate_documentation.py
 python scripts/validate_pages.py
-python -m unittest discover -s tests -v
 ```
+
+Plan dalszy: porównanie odpowiedzi impulsowej i częstotliwościowej z referencją NumPy/SciPy, benchmark długich wejść, testy antyaliasingu i resamplingu oraz E2E na danych z uprawnionych urządzeń. Te zakresy są **NOT_RUN** do czasu przeprowadzenia testów.
+
+Nie utożsamiać wykonanych syntetycznych testów z walidacją sprzętową lub naukowym benchmarkiem.
+
+Po scaleniu PR #2 zmieniono bazę PR #3 na `main`. [Scaffold CI #44949687674](https://github.com/MatPomGit/lib-sig/actions/runs/44949687674) potwierdził **90/90 PASS na `3e37ec6ee1d11fe351bd5beac67d58d51a9ef313`** (dokładny SHA w logach). To wynik **sprzed E4.0**. [Scaffold CI #45014389661](https://github.com/MatPomGit/lib-sig/actions/runs/45014389661), job `validate`, potwierdził exact-SHA `42ec9b042b931a8c6de25882ef16d9087e8b0cb4`: **94/94 PASS**, scaffold, dokumentacja i Pages PASS. Jest to wynik **sprzed poprawek E4.0 follow-up** (wcześniejsza kontrola zasobów i metadanych). Nowy commit wymaga odrębnego CI na swoim HEAD. Nie deklarować PASS dla SHA bez logów jego uruchomienia.
