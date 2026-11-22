@@ -31,4 +31,6 @@ python scripts/validate_documentation.py
 python scripts/validate_pages.py
 ```
 
+[Scaffold CI #45021099901](https://github.com/MatPomGit/lib-sig/actions/runs/45021099901) zweryfikował exact-SHA `9778045f6cb850ccc2f62e42b57be50fdb9d08c4`, **112/112 testów PASS**, w tym testy SciPy, przetwarzania FIR → PSD, limitu pamięci i kontroli dostępu do Pages. To dowód wykonania **sprzed aktualizacji niniejszego rejestru**; po zmianie commit SHA konieczne jest sprawdzenie nowego CI.
+
 Benchmarki długich strumieni, wheel clean-install i testy na urządzeniach: **NOT_RUN**. Nie przypisywać historycznych wyników CI nowym commitom.

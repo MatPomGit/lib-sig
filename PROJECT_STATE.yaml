@@ -6,12 +6,12 @@ programme: research-autopilot
 owner: MatPomGit
 updated: 2026-11-22
 lifecycle: development
-evidence_status: pr4_e4_ci_expected_on_final_sha
+evidence_status: spectral_ci_112_pass_9778045_before_evidence_refresh
 device_validation_status: not_run
 pages_status: not_configured
 release_status: not_released
 source_version: 0.1.0
-next_action: verify_final_pr_4_ci_then_obtain_independent_r2_review
+next_action: independent_r2_review_pr_4_after_exact_sha_ci
 blockers:
   - independent_pr_4_review_pending
   - license_undecided
