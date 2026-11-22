@@ -4,14 +4,14 @@ repository_type: lib
 component_id: lib-sig
 programme: research-autopilot
 owner: MatPomGit
-updated: 2026-11-21
+updated: 2026-11-22
 lifecycle: development
-evidence_status: ci_90_pass_on_main_base_d1f60245
+evidence_status: baseline_ci_90_pass_3e37ec6e_pre_e4
 device_validation_status: not_run
 pages_status: not_configured
 release_status: not_released
 source_version: 0.1.0
-next_action: obtain_independent_review_then_integrate_pr_3
+next_action: verify_e4_exact_sha_ci_then_followup_review_pr_3
 blockers:
   - independent_pr_3_review_pending
   - license_undecided

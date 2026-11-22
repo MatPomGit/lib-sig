@@ -8,6 +8,7 @@
     "lib_sig.SignalBlock",
     "lib_sig.SignalValidationError",
     "lib_sig.TimeAxis",
+    "lib_sig.TransformProvenance",
     "lib_sig.fir_filter",
     "lib_sig.moving_average"
   ],

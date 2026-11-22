@@ -15,4 +15,4 @@ Plan dalszy: porównanie odpowiedzi impulsowej i częstotliwościowej z referenc
 
 Nie utożsamiać wykonanych syntetycznych testów z walidacją sprzętową lub naukowym benchmarkiem.
 
-Po scaleniu PR #2 zmieniono bazę PR #3 na `main`. [Scaffold CI #44949547334](https://github.com/MatPomGit/lib-sig/actions/runs/44949547334) potwierdził **90/90 PASS na `d1f60245daeb4322dfab9d15ff90dd93a395300b`**, po przeniesieniu bazy na `main`. Kolejna zmiana SHA wymaga ponownego CI.
+Po scaleniu PR #2 zmieniono bazę PR #3 na `main`. [Scaffold CI #44949687674](https://github.com/MatPomGit/lib-sig/actions/runs/44949687674) potwierdził **90/90 PASS na `3e37ec6ee1d11fe351bd5beac67d58d51a9ef313`** (dokładny SHA w logach). To wynik **sprzed E4.0**. Nowe regresje E4.0 obejmują limit obliczeń, łańcuch metadanych i precyzję czasu; po commicie E4.0 aktualny status należy weryfikować w bieżących sprawdzeniach PR #3. Nie deklarować PASS dla SHA bez logów jego uruchomienia.
