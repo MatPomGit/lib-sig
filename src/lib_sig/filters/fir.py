@@ -49,6 +49,9 @@ def _apply_fir(
         raise SignalValidationError(
             "INVALID_FILTER", "taps must be a nonempty tuple no longer than the signal"
         )
+    # Reject unaffordable requests before converting potentially huge coefficients.
+    order = len(taps)
+    _check_budget(block, order)
     coefficients = []
     for tap in taps:
         if isinstance(tap, bool) or not isinstance(tap, Real):
@@ -66,8 +69,6 @@ def _apply_fir(
 
     output_rows = []
     output_mask = [] if block.mask is not None else None
-    order = len(coefficients)
-    _check_budget(block, order)
     for newest in range(order - 1, block.sample_count):
         values, flags = [], []
         for ch in range(block.channel_count):

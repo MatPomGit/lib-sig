@@ -126,6 +126,14 @@ class FirFilterTests(unittest.TestCase):
                 run()
             self.assertEqual(exc.exception.code, "RESOURCE_LIMIT")
 
+    def test_budget_precedes_large_coefficient_conversion(self):
+        s = block(((1.0, 2.0),) * 2048)
+        # The coefficient cannot be represented as float; no conversion is
+        # attempted when the declared filter already exceeds the MAC budget.
+        with self.assertRaises(SignalValidationError) as exc:
+            fir_filter(s, (10 ** 1000,) * 1024)
+        self.assertEqual(exc.exception.code, "RESOURCE_LIMIT")
+
     def test_provenance_contains_exact_filter_and_is_immutable(self):
         s = block(((1.0, 2.0), (3.0, 4.0), (5.0, 6.0)))
         out = fir_filter(s, (0.75, -0.25))
