@@ -99,6 +99,31 @@ class TimeAxis:
 
 
 @dataclass(frozen=True, slots=True)
+class TransformProvenance:
+    """Immutable, machine-readable record of one signal transformation."""
+
+    operation: str
+    parameters_json: str
+    input_sample_count: int
+    output_sample_count: int
+    timestamp_policy: str
+    missing_policy: str
+    group_delay_s: float | None = None
+
+    def __post_init__(self) -> None:
+        _required_name(self.operation, "operation", "INVALID_SHAPE")
+        _required_name(self.timestamp_policy, "timestamp_policy", "INVALID_SHAPE")
+        _required_name(self.missing_policy, "missing_policy", "INVALID_SHAPE")
+        if not isinstance(self.parameters_json, str) or not self.parameters_json:
+            raise SignalValidationError("INVALID_SHAPE", "parameters_json must not be empty")
+        if (type(self.input_sample_count) is not int or self.input_sample_count < 1
+                or type(self.output_sample_count) is not int or self.output_sample_count < 1):
+            raise SignalValidationError("INVALID_SHAPE", "transform sample counts must be positive integers")
+        if self.group_delay_s is not None and not _finite_number(self.group_delay_s):
+            raise SignalValidationError("INVALID_SHAPE", "group delay must be finite when specified")
+
+
+@dataclass(frozen=True, slots=True)
 class SignalBlock:
     """Channels are columns; rows are samples. True in mask means valid."""
 
@@ -107,6 +132,7 @@ class SignalBlock:
     time_axis: TimeAxis
     source_id: str
     mask: tuple[tuple[bool, ...], ...] | None = None
+    provenance: tuple[TransformProvenance, ...] = ()
 
     def __post_init__(self) -> None:
         _required_name(self.source_id, "source_id", "INVALID_SHAPE")
@@ -125,6 +151,10 @@ class SignalBlock:
             raise SignalValidationError("INVALID_SHAPE", "samples must be a nonempty tuple of fixed-width rows")
         if self.time_axis.kind == "irregular" and len(self.time_axis.timestamps_s) != len(self.samples):
             raise SignalValidationError("TIMEBASE_MISMATCH", "timestamp count must equal sample count")
+        if type(self.provenance) is not tuple or any(
+            not isinstance(record, TransformProvenance) for record in self.provenance
+        ):
+            raise SignalValidationError("INVALID_SHAPE", "provenance must be a tuple of TransformProvenance")
         if self.mask is not None:
             if (type(self.mask) is not tuple or len(self.mask) != len(self.samples)
                     or any(type(row) is not tuple or len(row) != count

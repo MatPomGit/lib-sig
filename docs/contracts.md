@@ -1,18 +1,26 @@
-# Kontrakt API Signal
+# API Signal: core + elementarny FIR
 
-Wersja `0.1.0` pozostaje **eksperymentalna**, bez wydania. `core` jest scalony do `main`, a `filters` (PR #3) oraz `spectral` (PR #4) pozostają zmianami rozwojowymi.
+**Status: IMPLEMENTED (EXPERIMENTAL), bez wydania.** Typy podstawowe i walidatory są przygotowane w `core`; funkcje DSP są dostępne w PR #3 względem `main`, zawierającego już zatwierdzony moduł `core` z PR #2.
 
-| API | Semantyka | Status |
+| Typ/funkcja | Obecne pola lub semantyka | Status |
 | --- | --- | --- |
-| `ChannelDescriptor`, `TimeAxis`, `SignalBlock`, `SignalValidationError` | Sygnał wielokanałowy, jednostki, regularny i nieregularny czas, maski | MAIN |
-| `fir_filter`, `moving_average` | Causal FIR valid/no padding, jednostka bez zmian | PR #3 |
-| `rfft_spectrum` | Współczynniki RFFT bez normalizacji i podwajania | STACKED PR #4 |
-| `periodogram_psd` | Jednostronne `unit²/Hz` ze skalą energy okna | STACKED PR #4 |
-| `SpectralEstimate` | Immutable `frequencies_hz`, `values[frequency][channel]`, `units`, `window`, `detrend`, `kind`, `sample_count`, `sampling_rate_hz`, `source_id`, `timebase`, `start_s` | STACKED PR #4 |
-| Welch PSD, spektrogram, resampling | Brak implementacji | PLANNED |
+| `ChannelDescriptor` | nazwa, jednostka, źródło i opcjonalna kalibracja | CORE |
+| `TimeAxis` | regular/irregular, jawny timebase, timestamp_at | CORE |
+| `SignalBlock` | `samples[sample,channel]`, kanały, oś czasu, maska i historia `provenance` | CORE |
+| `TransformProvenance` | niezmienny rekord operacji, parametrów JSON, osi i braków | EXPERIMENTAL |
+| `SignalValidationError` | `code` i opis, pochodna `ValueError` | CORE |
+| `fir_filter(block, taps)` | causal FIR, kolejność od najnowszej próbki, valid/no padding | EXPERIMENTAL |
+| `moving_average(block, window)` | równoważny FIR z wagami `1/window` | EXPERIMENTAL |
+| `SignalEvent`, `SignalQuality` | planowane, niezaimplementowane | PLANNED |
 
-FFT/PSD: regularny `TimeAxis`, co najmniej dwie próbki, wszystkie maski ważne. Okno `boxcar` lub periodyczny `hann`; detrend `none` lub `constant` przed oknem. `rfft_spectrum` domyślnie nie odejmuje średniej, `periodogram_psd` domyślnie ją odejmuje. PSD: `|X[k]|² / (fs Σw²)`, podwojenie wszystkich dodatnich częstotliwości z wyjątkiem Nyquista dla parzystego N. DC pozostaje bez podwojenia. Częstotliwości w Hz, PSD w jednostka²/Hz. Metadane czasowe i pochodzenie są zachowane.
+Wymagane regularne próbkowanie i niepusty `tuple` skończonych rzeczywistych współczynników o długości nie większej niż liczba próbek. Dla `N` próbek i `K` współczynników wynik ma `N-K+1` próbek. Używana konwencja `y[n] = Σ_{k=0}^{K-1} taps[k]·x[n-k]` od `n=K-1`. Timestamp reprezentuje czas najnowszej próbki, nie środek okna. Filtr nie kompensuje opóźnienia grupowego.
 
-Funkcje nie imputują braków, nie wykonują resamplingu i nie przyjmują danych o nieregularnym próbkowaniu. Nieprawidłowe argumenty: `INVALID_SPECTRUM`, maski: `DATA_LOSS`, brak NumPy: `DEPENDENCY_UNAVAILABLE`.
+Jednostki amplitudy i `source_id` są zachowywane. Przy masce wejścia `False` dowolny brak w oknie daje wynik `NaN` z maską `False`, ale niezależne kanały pozostają ważne. Przepełnienie wyniku daje `DATA_LOSS`, a błędne współczynniki `INVALID_FILTER`. Przy nieregularnym próbkowaniu zgłaszany jest `IRREGULAR_SAMPLING`. Nie następuje interpolacja, padding, resampling ani przekształcanie jednostek.
 
-Brak gwarancji stabilności API, builda wheel i wyników na aparaturze. Breaking changes po uruchomieniu odbiorców wymagają wersjonowania i planu migracji.
+Bezpośredni splot jest ograniczony do **1 000 000 multiply-accumulates** na wywołanie, licząc `(N-K+1)*K*C`; przekroczenie zgłasza `RESOURCE_LIMIT` przed kosztowną pętlą. `fir_filter` sprawdza budżet na podstawie długości `taps` przed konwersją współczynników; gdy jednocześnie przekroczony jest budżet i współczynniki są nieprawidłowe, pierwszeństwo ma `RESOURCE_LIMIT`. `moving_average` sprawdza limit przed utworzeniem wektora wag. Ograniczenie dotyczy wersji referencyjnej w Pythonie i nie stanowi benchmarku wydajności.
+
+Każdy wynik dołącza `TransformProvenance` do `SignalBlock.provenance`, nie nadpisując historii wejściowej. `parameters_json` przechowuje dokładne współczynniki `taps` (oraz `window` dla średniej), `input_sample_count`, `output_sample_count`, `timestamp_policy=newest_input_sample`, `missing_policy=invalidate_complete_window_per_channel`. `group_delay_s` jest określone tylko dla średniej ruchomej; dla dowolnego FIR pozostaje `None`. `source_id` identyfikuje źródło, a nie cały rodowód danych. Historia nie zawiera sum kontrolnych wejścia i nie zastępuje archiwalnej ewidencji eksperymentu.
+
+Znaczniki czasu podlegają zaokrągleniom IEEE-754. Zachowanie zgodności oznacza zgodność numeryczną z `block.timestamp_at(i+K-1)` w tolerancji zmiennoprzecinkowej, **nie** identyczność bitową.
+
+FIR z bezpośrednim splotem jest przeznaczony do krótkich filtrów i syntetycznej walidacji, a nie produkcyjnego przetwarzania długich strumieni. Brak clean-install, zweryfikowanej licencji, benchmarków i E2E; `release_status: not_released`.

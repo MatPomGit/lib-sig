@@ -5,13 +5,34 @@ A small dependency-free reference operation; not an FFT or resampling engine.
 
 from __future__ import annotations
 
+import json
 import math
 from numbers import Real
 
-from ..core import SignalBlock, SignalValidationError, TimeAxis
+from ..core import SignalBlock, SignalValidationError, TimeAxis, TransformProvenance
+
+
+# A conservative bound for the pure-Python reference implementation.
+MAX_FIR_MACS = 1_000_000
+
+
+def _check_budget(block: SignalBlock, order: int) -> None:
+    operations = (block.sample_count - order + 1) * order * block.channel_count
+    if operations > MAX_FIR_MACS:
+        raise SignalValidationError(
+            "RESOURCE_LIMIT",
+            f"FIR needs {operations} multiply-accumulates; limit is {MAX_FIR_MACS}",
+        )
 
 
 def fir_filter(block: SignalBlock, taps: tuple[float, ...]) -> SignalBlock:
+    """Filter complete causal windows and record the exact coefficients."""
+    return _apply_fir(block, taps, operation="fir", window=None)
+
+
+def _apply_fir(
+    block: SignalBlock, taps: tuple[float, ...], *, operation: str, window: int | None
+) -> SignalBlock:
     """Return a causal, unpadded FIR result.
 
     taps[0] multiplies the current sample; taps[k] multiplies sample n-k.
@@ -28,6 +49,9 @@ def fir_filter(block: SignalBlock, taps: tuple[float, ...]) -> SignalBlock:
         raise SignalValidationError(
             "INVALID_FILTER", "taps must be a nonempty tuple no longer than the signal"
         )
+    # Reject unaffordable requests before converting potentially huge coefficients.
+    order = len(taps)
+    _check_budget(block, order)
     coefficients = []
     for tap in taps:
         if isinstance(tap, bool) or not isinstance(tap, Real):
@@ -45,7 +69,6 @@ def fir_filter(block: SignalBlock, taps: tuple[float, ...]) -> SignalBlock:
 
     output_rows = []
     output_mask = [] if block.mask is not None else None
-    order = len(coefficients)
     for newest in range(order - 1, block.sample_count):
         values, flags = [], []
         for ch in range(block.channel_count):
@@ -78,12 +101,27 @@ def fir_filter(block: SignalBlock, taps: tuple[float, ...]) -> SignalBlock:
         start_s=block.timestamp_at(order - 1),
         sampling_rate_hz=block.time_axis.sampling_rate_hz,
     )
+    parameters = {"taps": coefficients}
+    if window is not None:
+        parameters["window"] = window
+    record = TransformProvenance(
+        operation=operation,
+        parameters_json=json.dumps(parameters, separators=(",", ":"), allow_nan=False),
+        input_sample_count=block.sample_count,
+        output_sample_count=len(output_rows),
+        timestamp_policy="newest_input_sample",
+        missing_policy="invalidate_complete_window_per_channel",
+        # General FIR filters need not have linear phase.
+        group_delay_s=((order - 1) / (2 * block.time_axis.sampling_rate_hz))
+        if window is not None else None,
+    )
     return SignalBlock(
         samples=tuple(output_rows),
         channels=block.channels,
         time_axis=output_time,
         source_id=block.source_id,
         mask=tuple(output_mask) if output_mask is not None else None,
+        provenance=block.provenance + (record,),
     )
 
 
@@ -100,4 +138,7 @@ def moving_average(block: SignalBlock, window: int) -> SignalBlock:
         raise SignalValidationError("INVALID_SHAPE", "block must be a SignalBlock")
     if window > block.sample_count:
         raise SignalValidationError("INVALID_FILTER", "window exceeds available samples")
-    return fir_filter(block, (1.0 / window,) * window)
+    _check_budget(block, window)
+    return _apply_fir(
+        block, (1.0 / window,) * window, operation="moving_average", window=window
+    )

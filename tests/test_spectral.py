@@ -1,14 +1,16 @@
 """Reference tests for FFT bins, PSD units, windowing, and Parseval's law."""
 
+import json
 import math
 from pathlib import Path
 import sys
 import unittest
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from lib_sig import (
     ChannelDescriptor, SignalBlock, SignalValidationError, TimeAxis,
-    SpectralEstimate, periodogram_psd, rfft_spectrum,
+    SpectralEstimate, moving_average, periodogram_psd, rfft_spectrum,
 )
 
 
@@ -136,6 +138,40 @@ class SpectralTests(unittest.TestCase):
         old = s.samples
         periodogram_psd(s, window="hann")
         self.assertEqual(s.samples, old)
+
+    def test_fir_to_psd_keeps_provenance_chain_and_scaling(self):
+        s = signal([1., 2., 3., 4., 5., 6., 7., 8.])
+        filtered = moving_average(s, 3)
+        result = periodogram_psd(filtered, window="hann", detrend="constant")
+        self.assertEqual(len(result.provenance), 2)
+        self.assertEqual(result.provenance[0], filtered.provenance[0])
+        self.assertEqual(result.provenance[0].operation, "moving_average")
+        spectral = result.provenance[-1]
+        self.assertEqual(spectral.operation, "periodogram_psd")
+        self.assertEqual(spectral.input_sample_count, filtered.sample_count)
+        self.assertEqual(spectral.output_sample_count, len(result.frequencies_hz))
+        meta = json.loads(spectral.parameters_json)
+        self.assertEqual(meta["window"], "hann")
+        self.assertEqual(meta["detrend"], "constant")
+        self.assertEqual(meta["normalization"], "one_sided_density")
+        self.assertEqual(meta["backend_version"], "2.3.5")
+        self.assertGreater(meta["window_energy"], 0)
+        self.assertEqual(result.source_id, s.source_id)
+
+    def test_spectral_budget_fails_fast_without_large_allocations(self):
+        s = signal([1.] * 8)
+        with patch("lib_sig.spectral.fft.MAX_SPECTRAL_ESTIMATED_BYTES", 1):
+            for function in (rfft_spectrum, periodogram_psd):
+                with self.subTest(function=function.__name__), self.assertRaises(SignalValidationError) as context:
+                    function(s)
+                self.assertEqual(context.exception.code, "RESOURCE_LIMIT")
+
+    def test_numpy_allocation_failure_maps_to_stable_code(self):
+        s = signal([1.] * 8)
+        with patch("numpy.asarray", side_effect=MemoryError("synthetic allocation error")):
+            with self.assertRaises(SignalValidationError) as context:
+                rfft_spectrum(s)
+        self.assertEqual(context.exception.code, "RESOURCE_LIMIT")
 
     def test_unrepresentable_fft_raises_data_loss(self):
         s = signal([1e308] * 8)

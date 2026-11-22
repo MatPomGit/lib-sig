@@ -20,3 +20,7 @@ P[k] *= 2 dla dodatnich częstotliwości poza Nyquistem
 DC oraz Nyquist (dla parzystej liczby próbek) nie są mnożone przez 2. Rozdzielczość częstotliwości `Δf=fs/N`; suma PSD · Δf odpowiada odpowiednio znormalizowanej mocy sygnału w oknie. FFT zwraca *nieznormalizowany* wynik zespolony, bez jednostronnego podwojenia.
 
 **Niezrealizowane:** Welch PSD, spektrogram, testy urządzeń i wydanie. [Kontrakt](../../../docs/contracts.md), [Testy](../../../docs/testing.md).
+
+Wynik `SpectralEstimate.provenance` zachowuje historię `SignalBlock.provenance` (w tym parametry FIR) i dodaje niezmienny `TransformProvenance` z oknem, detrend, normalizacją, częstotliwością próbkowania oraz wersją NumPy. Nie zastępuje to identyfikacji danych wejściowych za pomocą hashy.
+
+Przed alokacją NumPy obowiązuje konserwatywny **szacunkowy budżet buforów i obiektów wyniku 64 MiB** (`RESOURCE_LIMIT`). Nie jest to twarda granica zużycia pamięci przez wewnętrzny silnik FFT. Błędy alokacji są mapowane na `RESOURCE_LIMIT`. Testy porównawcze SciPy mają zależność wyłącznie deweloperską, nie runtime.

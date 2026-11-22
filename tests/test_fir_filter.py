@@ -1,5 +1,6 @@
 """Deterministic tests of causal FIR filtering and measurement provenance."""
 
+import json
 import math
 from pathlib import Path
 import sys
@@ -8,7 +9,7 @@ import unittest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from lib_sig import (
     ChannelDescriptor, SignalBlock, SignalValidationError, TimeAxis,
-    fir_filter, moving_average,
+    TransformProvenance, fir_filter, moving_average,
 )
 
 
@@ -114,6 +115,61 @@ class FirFilterTests(unittest.TestCase):
         self.assertEqual(out.sample_count, 1)
         self.assertAlmostEqual(out.timestamp_at(0), 0.2)
         self.assertEqual(out.samples, ((2.0, 2.0),))
+
+    def test_resource_budget_rejects_expensive_fir_and_average(self):
+        s = block(((1.0, 2.0),) * 2048)
+        for run in (
+            lambda: fir_filter(s, (1.0 / 1024,) * 1024),
+            lambda: moving_average(s, 1024),
+        ):
+            with self.assertRaises(SignalValidationError) as exc:
+                run()
+            self.assertEqual(exc.exception.code, "RESOURCE_LIMIT")
+
+    def test_budget_precedes_large_coefficient_conversion(self):
+        s = block(((1.0, 2.0),) * 2048)
+        # The coefficient cannot be represented as float; no conversion is
+        # attempted when the declared filter already exceeds the MAC budget.
+        with self.assertRaises(SignalValidationError) as exc:
+            fir_filter(s, (10 ** 1000,) * 1024)
+        self.assertEqual(exc.exception.code, "RESOURCE_LIMIT")
+
+    def test_provenance_contains_exact_filter_and_is_immutable(self):
+        s = block(((1.0, 2.0), (3.0, 4.0), (5.0, 6.0)))
+        out = fir_filter(s, (0.75, -0.25))
+        self.assertEqual(s.provenance, ())
+        self.assertEqual(len(out.provenance), 1)
+        record = out.provenance[0]
+        self.assertIsInstance(record, TransformProvenance)
+        self.assertEqual(record.operation, "fir")
+        self.assertEqual(json.loads(record.parameters_json), {"taps": [0.75, -0.25]})
+        self.assertEqual((record.input_sample_count, record.output_sample_count), (3, 2))
+        self.assertEqual(record.timestamp_policy, "newest_input_sample")
+        self.assertEqual(record.missing_policy, "invalidate_complete_window_per_channel")
+        self.assertIsNone(record.group_delay_s)
+        with self.assertRaises((AttributeError, TypeError)):
+            record.operation = "other"
+
+    def test_chained_provenance_and_mean_group_delay(self):
+        s = block(tuple((float(n), 2.0) for n in range(5)), rate=20.0)
+        first = fir_filter(s, (1.0,))
+        second = moving_average(first, 3)
+        self.assertEqual([record.operation for record in second.provenance], ["fir", "moving_average"])
+        data = json.loads(second.provenance[-1].parameters_json)
+        self.assertEqual(data["window"], 3)
+        self.assertEqual(data["taps"], [1 / 3] * 3)
+        self.assertAlmostEqual(second.provenance[-1].group_delay_s, 0.05)
+        self.assertEqual(second.source_id, s.source_id)
+
+    def test_timestamps_use_float_tolerance_not_bit_identity(self):
+        s = block(tuple((float(n), 1.0) for n in range(8)), start=0.0, rate=10.0)
+        out = moving_average(s, 3)
+        self.assertNotEqual(out.timestamp_at(1), s.timestamp_at(3))
+        for i in range(out.sample_count):
+            self.assertTrue(math.isclose(
+                out.timestamp_at(i), s.timestamp_at(i + 2),
+                rel_tol=0.0, abs_tol=1e-12,
+            ))
 
     def test_bad_block_type_rejected(self):
         with self.assertRaises(SignalValidationError) as exc:

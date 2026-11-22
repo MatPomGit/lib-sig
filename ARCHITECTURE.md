@@ -1,24 +1,23 @@
 # Architektura lib-sig
 
-`lib-sig` wspiera ogólne DSP wielokanałowych sygnałów z badań, robotyki, akustyki i biosensorów. Warstwa `core` definiuje niezmienny model danych z jawnie wskazanym czasem i jednostkami.
+`lib-sig` zapewni wspólny model **sygnału próbkowanego**, niezależny od dziedziny pomiaru. Dane mogą pochodzić z biosensorów, mikrofonów, IMU, maszyn, robotów lub symulacji.
 
 ```text
-Źródło danych / plik / aplikacja
-            |
-        core: SignalBlock
-            |
-        +---+-----+
-        |         |
-     filters    spectral
-        |         |
- causal FIR    RFFT / PSD
-        +----+----+
-             |
-        odbiorca danych
+Źródło / plik / biblioteka urządzenia
+                |
+               io
+                |
+     core (próbki, czas, jednostki)
+                |
+   filters / spectral / events
+                |
+       quality / features
+                |
+        aplikacja badawcza
 ```
 
-`filters` w PR #3 działa bez zewnętrznych zależności i nie stosuje paddingu. `spectral` w PR #4 korzysta z NumPy, obsługuje regularny czas, okna boxcar/Hann i zwraca jednostronną PSD. Nie interpoluje danych brakujących. Wszelkie obliczenia muszą zachowywać pochodzenie, jednostki i ujawniać normalizację.
+Rdzeń nie narzuca jednego SDK, klasy urządzenia ani formatu. Sygnały mogą mieć regularne lub nieregularne próbkowanie; moduły wymagające stałego kroku czasu muszą weryfikować to założenie. Operacje FIR zapisują w niezmiennym `SignalBlock.provenance` kolejność transformacji, współczynniki, politykę braków i kotwiczenie timestampów. Dla średniej ruchomej rejestrowane jest także opóźnienie grupowe; dla ogólnego FIR nie jest ono określane bez znajomości fazy. Wykres charakterystyki częstotliwościowej nie jest jeszcze implementowany.
 
-Biblioteka nie odpowiada za ASR/TTS (`lib-audio`), przetwarzanie obrazu (`lib-vis`), śledzenie obiektów (`lib-track`) ani transport ROS2 (`lib-ros`). Nie przechowuje danych eksperymentalnych ani identyfikatorów sprzętu.
+Przetwarzanie sygnału nie obejmuje rozpoznawania mowy (`lib-audio`), obrazu (`lib-vis`), śledzenia tożsamości obiektu (`lib-track`) ani komunikacji ROS2 (`lib-ros`). Warstwy wyższego poziomu mogą wykorzystywać API DSP bez kopiowania implementacji.
 
-**Status:** `core` MAIN, `filters` PR #3, `spectral` PR #4. Brak release, E2E i walidacji sprzętu. Szczegóły: [kontrakty](docs/contracts.md), [komponenty](docs/architecture/components.md), [testy](docs/testing.md).
+Status: **CORE + MINIMAL FIR IMPLEMENTED (EXPERIMENTAL) / NOT_RELEASED**. Moduł `filters` obsługuje wyłącznie przyczynowy FIR i średnią ruchomą; `spectral`, `io`, `events`, `features` oraz `quality` pozostają planowane. Szczegóły: [komponenty](docs/architecture/components.md), [kontrakty](docs/contracts.md), [przepływ danych](docs/architecture/data-flow.md) i [ADR-0004](docs/adr/0004-boundaries.md).
