@@ -7,10 +7,13 @@
     "lib_sig.ChannelDescriptor",
     "lib_sig.SignalBlock",
     "lib_sig.SignalValidationError",
+    "lib_sig.SpectralEstimate",
     "lib_sig.TimeAxis",
     "lib_sig.TransformProvenance",
     "lib_sig.fir_filter",
-    "lib_sig.moving_average"
+    "lib_sig.moving_average",
+    "lib_sig.periodogram_psd",
+    "lib_sig.rfft_spectrum"
   ],
   "serialization_contracts": [],
   "breaking_change_policy": "major_version_with_migration_guide",

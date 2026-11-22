@@ -6,4 +6,4 @@ Akwizycja i przetwarzanie wielokanałowych sygnałów pomiarowych, w tym EEG, EM
 - [Kontrakt](contracts.md), [zależności](dependencies.md), [konsumenci](consumers.md), [zgodność](compatibility.md).
 - [Testy](testing.md), [roadmap](roadmap.md), [instalacja](installation.md), [prywatność](privacy.md), [ADR-0004](adr/0004-boundaries.md).
 
-Tylko katalog `pages/` jest możliwym źródłem publikowanych stron. Status wszystkich integracji: NOT_IMPLEMENTED.
+Tylko katalog `pages/` jest możliwym źródłem publikowanych stron. `core` i FIR scalono do `main`; eksperymentalne RFFT/PSD znajduje się w PR #4. Brak wydania i automatycznej publikacji.
