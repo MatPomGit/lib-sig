@@ -133,6 +133,21 @@ class SpectralTests(unittest.TestCase):
         mean_square = sum(x * x for x in values) / len(values)
         self.assertAlmostEqual(integrated, mean_square, places=10)
 
+    def test_odd_length_highest_bin_is_not_nyquist(self):
+        # Odd sample counts have no Nyquist bin; the last positive bin doubles.
+        n = 15
+        values = [math.cos(2 * math.pi * 7 * i / n) for i in range(n)]
+        result = periodogram_psd(signal(values, fs=15.), detrend="none")
+        self.assertEqual(len(result.frequencies_hz), 8)
+        self.assertAlmostEqual(result.frequencies_hz[-1], 7.)
+        self.assertAlmostEqual(result.values[-1][0], 0.5, places=10)
+        self.assertAlmostEqual(sum(row[0] for row in result.values), 0.5, places=10)
+
+    def test_constant_offset_is_preserved_without_detrending(self):
+        result = periodogram_psd(signal([2.] * 15, fs=15.), detrend="none")
+        self.assertAlmostEqual(result.values[0][0], 4., places=10)
+        self.assertTrue(all(abs(row[0]) < 1e-10 for row in result.values[1:]))
+
     def test_input_is_not_mutated(self):
         s = signal([1., 2., -3., 0., 2., 4., -1., 0.])
         old = s.samples
